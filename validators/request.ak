@@ -113,7 +113,7 @@ fn validate_loan(
     validate_collateral_output(ctx, expected_datum, datum, collateral_address)
 
   let only_one_contract_input =
-    list.length(utils.get_validator_inputs(ctx, output_ref)) == 1
+    list.length(utils.get_own_validator_inputs(ctx, output_ref)) == 1
 
   // Perform final validation
   minted_lender_nft && paid_borrower && request_not_expired && valid_collateral_output && only_one_contract_input

@@ -95,7 +95,7 @@ pub fn get_upper_bound(range: ValidityRange) -> Int {
 }
 
 // Get all validator inputs
-pub fn get_validator_inputs(ctx: ScriptContext, output_reference) -> List<Input> {
+pub fn get_own_validator_inputs(ctx: ScriptContext, output_reference) -> List<Input> {
   let script_own_address = get_own_validator_address(ctx, output_reference)
 
   // Get all inputs from the transaction
