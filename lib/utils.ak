@@ -84,6 +84,11 @@ pub fn validate_token_mint(
   }
 }
 
+// Only one token is minted in a whole TX
+pub fn validate_if_only_one_token_minted(mints) -> Bool {
+  list.length(flatten(mints)) == 1
+}
+
 pub fn get_lower_bound(range: ValidityRange) -> Int {
   expect Finite(lower_bound) = range.lower_bound.bound_type
   lower_bound
@@ -95,7 +100,10 @@ pub fn get_upper_bound(range: ValidityRange) -> Int {
 }
 
 // Get all validator inputs
-pub fn get_own_validator_inputs(ctx: ScriptContext, output_reference) -> List<Input> {
+pub fn get_own_validator_inputs(
+  ctx: ScriptContext,
+  output_reference,
+) -> List<Input> {
   let script_own_address = get_own_validator_address(ctx, output_reference)
 
   // Get all inputs from the transaction

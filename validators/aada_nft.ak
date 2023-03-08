@@ -42,10 +42,12 @@ validator aada_nft {
             let expected_minting = (own_policy, token_name, 1)
             let valid_mint =
               utils.validate_token_mint(ctx.transaction.mint, expected_minting)
+            let only_one_mint =
+              utils.validate_if_only_one_token_minted(ctx.transaction.mint)
             let utxo_consumed =
               utxo_consumed(consumed_utxo, ctx.transaction.inputs)
             let valid_utxo_id = consumed_utxo.output_index < 256
-            valid_mint && utxo_consumed && valid_utxo_id
+            valid_mint && utxo_consumed && valid_utxo_id && only_one_mint
           }
           BurnR(burn_tn) -> {
             let expected_burn = (own_policy, burn_tn, -1)
