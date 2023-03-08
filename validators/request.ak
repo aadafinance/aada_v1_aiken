@@ -87,7 +87,7 @@ fn validate_loan(
       liquidation_commision: datum.liquidation_commision,
       request_expiration_time: datum.request_expiration_time,
       lender_tn,
-      lend_time: utils.get_lower_bound(ctx.transaction.validity_range),
+      lend_time: utils.get_upper_bound(ctx.transaction.validity_range),
     }
 
   let paid_borrower =
