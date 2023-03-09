@@ -1,3 +1,4 @@
+use aiken/dict
 use aiken/interval.{Finite}
 use aiken/list
 use aiken/option
@@ -7,7 +8,7 @@ use aiken/transaction.{
 use aiken/transaction/credential.{
   Address, ScriptCredential, VerificationKeyCredential,
 }
-use aiken/transaction/value.{Value, flatten}
+use aiken/transaction/value.{PolicyId, Value, flatten, tokens}
 use types.{POSIXTime, ValidatorHash}
 
 pub fn own_validator_script_address_hash(
@@ -74,14 +75,24 @@ pub fn get_address_output(
   )
 }
 
+// Validate that token is minted and only one tokenName with provided policy
 pub fn validate_token_mint(
   mints: Value,
   expected_minting: (ByteArray, ByteArray, Int),
 ) -> Bool {
   when list.find(flatten(mints), fn(mint) { mint == expected_minting }) is {
-    Some(_) -> True
+    Some(_) -> only_one_token_in_policy_minted(mints, expected_minting)
     None -> False
   }
+}
+
+// Make sure only one token is minted from the asset tuple
+fn only_one_token_in_policy_minted(mints, expected_minting) {
+  let (policy_id, _, _) = expected_minting
+  let policy_id: PolicyId = policy_id
+  // Check for the policy mints
+  list.length(dict.keys(tokens(mints, policy_id))) == 1
+  // Total count of minted unique tokens with policy is 1
 }
 
 pub fn get_lower_bound(range: ValidityRange) -> Int {
@@ -95,7 +106,10 @@ pub fn get_upper_bound(range: ValidityRange) -> Int {
 }
 
 // Get all validator inputs
-pub fn get_own_validator_inputs(ctx: ScriptContext, output_reference) -> List<Input> {
+pub fn get_own_validator_inputs(
+  ctx: ScriptContext,
+  output_reference,
+) -> List<Input> {
   let script_own_address = get_own_validator_address(ctx, output_reference)
 
   // Get all inputs from the transaction
