@@ -64,13 +64,13 @@ fn get_expected_interest(ctx: ScriptContext, datum: RequestDatum) -> Value {
       loan_held_interval / datum.loan_duration * datum.interest_amount
     if actual_interest_amount < minimum_interest {
       from_asset(
-        datum.interest_asset.asset_name,
-        datum.interest_asset.asset_name,
+        datum.interest_asset.policy_id,
+        datum.interest_asset.policy_id,
         minimum_interest,
       )
     } else {
       from_asset(
-        datum.interest_asset.asset_name,
+        datum.interest_asset.policy_id,
         datum.interest_asset.asset_name,
         actual_interest_amount,
       )
@@ -78,7 +78,7 @@ fn get_expected_interest(ctx: ScriptContext, datum: RequestDatum) -> Value {
   } else {
     // Loan overdue. You must give all interest to lender
     from_asset(
-      datum.interest_asset.asset_name,
+      datum.interest_asset.policy_id,
       datum.interest_asset.asset_name,
       datum.interest_amount,
     )
