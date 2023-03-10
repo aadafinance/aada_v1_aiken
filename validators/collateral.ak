@@ -55,7 +55,7 @@ fn validate_expiration(range: ValidityRange, lower_bound: POSIXTime) -> Bool {
 
 // Find interest amount borrower has to pay to lender
 fn get_expected_interest(ctx: ScriptContext, datum: RequestDatum) -> Value {
-  let current_repay_time = utils.get_lower_bound(ctx.transaction.validity_range)
+  let current_repay_time = utils.get_upper_bound(ctx.transaction.validity_range)
   let loan_held_interval = current_repay_time - datum.lend_time
   let minimum_interest = datum.interest_amount * 200000 / 1000000
   // Minimum interest must be paid (currently 20% of total interest amount)
