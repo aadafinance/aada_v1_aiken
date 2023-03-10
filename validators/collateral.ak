@@ -61,8 +61,9 @@ fn get_expected_interest(ctx: ScriptContext, datum: RequestDatum) -> Value {
   // Minimum interest must be paid (currently 20% of total interest amount)
   if loan_held_interval <= datum.loan_duration {
     let actual_interest_amount =
-      loan_held_interval / datum.loan_duration * datum.interest_amount
+      loan_held_interval * datum.interest_amount / datum.loan_duration
     if actual_interest_amount < minimum_interest {
+      // Loan recently started. Must pay 20% minimum interest
       from_asset(
         datum.interest_asset.policy_id,
         datum.interest_asset.policy_id,
