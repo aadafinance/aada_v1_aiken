@@ -136,7 +136,7 @@ fn validate_liquidate(
     )
   // Loan is due. Lender can liquidate
   let deadline_passed =
-    request_datum.loan_duration + request_datum.lend_time > utils.get_lower_bound(
+    request_datum.loan_duration + request_datum.lend_time < utils.get_lower_bound(
       ctx.transaction.validity_range,
     )
 
