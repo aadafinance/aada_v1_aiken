@@ -66,7 +66,7 @@ fn get_expected_interest(ctx: ScriptContext, datum: RequestDatum) -> Value {
       // Loan recently started. Must pay 20% minimum interest
       from_asset(
         datum.interest_asset.policy_id,
-        datum.interest_asset.policy_id,
+        datum.interest_asset.asset_name,
         minimum_interest,
       )
     } else {
