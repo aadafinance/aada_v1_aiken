@@ -3,7 +3,7 @@ use aiken/interval.{Finite}
 use aiken/list
 use aiken/option
 use aiken/transaction.{
-  Input, Output, OutputReference, ScriptContext, ValidityRange,
+  Datum, Input, NoDatum, Output, OutputReference, ScriptContext, ValidityRange,
 }
 use aiken/transaction/credential.{
   Address, ScriptCredential, VerificationKeyCredential,
@@ -117,6 +117,28 @@ pub fn get_own_validator_inputs(
     ctx.transaction.inputs,
     fn(input) { input.output.address == script_own_address },
   )
+}
+
+pub fn get_other_validator_inputs(
+  ctx: ScriptContext,
+  output_reference: OutputReference,
+) -> List<Input> {
+  let script_own_address = get_own_validator_address(ctx, output_reference)
+
+  // Check if there is at least one another SC with datum and address is not it's own
+  list.filter(
+    ctx.transaction.inputs,
+    fn(input) {
+      has_datum(input.output.datum) && input.output.address != script_own_address
+    },
+  )
+}
+
+pub fn has_datum(datum: Datum) -> Bool {
+  when datum is {
+    NoDatum -> False
+    _ -> True
+  }
 }
 
 pub fn validate_expiration(
