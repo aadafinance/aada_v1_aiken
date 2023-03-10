@@ -7,240 +7,7 @@
   },
   "validators": [
     {
-      "title": "request.request",
-      "datum": {
-        "title": "RequestDatum",
-        "anyOf": [
-          {
-            "title": "RequestDatum",
-            "dataType": "constructor",
-            "index": 0,
-            "fields": [
-              {
-                "title": "borrower_tn",
-                "dataType": "bytes"
-              },
-              {
-                "title": "borrower_address",
-                "description": "A Cardano `Address` typically holding one or two credential references.\n\n Note that legacy bootstrap addresses (a.k.a. 'Byron addresses') are\n completely excluded from Plutus contexts. Thus, from an on-chain\n perspective only exists addresses of type 00, 01, ..., 07 as detailed\n in [CIP-0019 :: Shelley Addresses](https://github.com/cardano-foundation/CIPs/tree/master/CIP-0019/#shelley-addresses).",
-                "anyOf": [
-                  {
-                    "title": "Address",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "title": "payment_credential",
-                        "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
-                        "anyOf": [
-                          {
-                            "title": "VerificationKeyCredential",
-                            "dataType": "constructor",
-                            "index": 0,
-                            "fields": [
-                              {
-                                "dataType": "bytes"
-                              }
-                            ]
-                          },
-                          {
-                            "title": "ScriptCredential",
-                            "dataType": "constructor",
-                            "index": 1,
-                            "fields": [
-                              {
-                                "dataType": "bytes"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "title": "stake_credential",
-                        "anyOf": [
-                          {
-                            "title": "Some",
-                            "description": "An optional value.",
-                            "dataType": "constructor",
-                            "index": 0,
-                            "fields": [
-                              {
-                                "title": "Referenced",
-                                "description": "Represent a type of object that can be represented either inline (by hash)\n or via a reference (i.e. a pointer to an on-chain location).\n\n This is mainly use for capturing pointers to a stake credential\n registration certificate in the case of so-called pointer addresses.",
-                                "anyOf": [
-                                  {
-                                    "title": "Inline",
-                                    "dataType": "constructor",
-                                    "index": 0,
-                                    "fields": [
-                                      {
-                                        "title": "Credential",
-                                        "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
-                                        "anyOf": [
-                                          {
-                                            "title": "VerificationKeyCredential",
-                                            "dataType": "constructor",
-                                            "index": 0,
-                                            "fields": [
-                                              {
-                                                "dataType": "bytes"
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "title": "ScriptCredential",
-                                            "dataType": "constructor",
-                                            "index": 1,
-                                            "fields": [
-                                              {
-                                                "dataType": "bytes"
-                                              }
-                                            ]
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "title": "Pointer",
-                                    "dataType": "constructor",
-                                    "index": 1,
-                                    "fields": [
-                                      {
-                                        "title": "slot_number",
-                                        "dataType": "integer"
-                                      },
-                                      {
-                                        "title": "transaction_index",
-                                        "dataType": "integer"
-                                      },
-                                      {
-                                        "title": "certificate_index",
-                                        "dataType": "integer"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          {
-                            "title": "None",
-                            "description": "Nothing.",
-                            "dataType": "constructor",
-                            "index": 1,
-                            "fields": []
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "title": "loan_asset",
-                "anyOf": [
-                  {
-                    "title": "CurrencySymbol",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "title": "policy_id",
-                        "dataType": "bytes"
-                      },
-                      {
-                        "title": "asset_name",
-                        "dataType": "bytes"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "title": "loan_amount",
-                "dataType": "integer"
-              },
-              {
-                "title": "interest_asset",
-                "anyOf": [
-                  {
-                    "title": "CurrencySymbol",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "title": "policy_id",
-                        "dataType": "bytes"
-                      },
-                      {
-                        "title": "asset_name",
-                        "dataType": "bytes"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "title": "interest_amount",
-                "dataType": "integer"
-              },
-              {
-                "title": "collateral_asset",
-                "anyOf": [
-                  {
-                    "title": "CurrencySymbol",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "title": "policy_id",
-                        "dataType": "bytes"
-                      },
-                      {
-                        "title": "asset_name",
-                        "dataType": "bytes"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "title": "collateral_amount",
-                "dataType": "integer"
-              },
-              {
-                "title": "loan_duration",
-                "dataType": "integer"
-              },
-              {
-                "title": "liquidate_policy",
-                "dataType": "bytes"
-              },
-              {
-                "title": "collateral_factor",
-                "dataType": "integer"
-              },
-              {
-                "title": "liquidation_commision",
-                "dataType": "integer"
-              },
-              {
-                "title": "request_expiration_time",
-                "dataType": "integer"
-              },
-              {
-                "title": "lender_tn",
-                "dataType": "bytes"
-              },
-              {
-                "title": "lend_time",
-                "dataType": "integer"
-              }
-            ]
-          }
-        ]
-      },
+      "title": "aada_nft.aada_nft",
       "redeemer": {
         "title": "Redeemer",
         "anyOf": [
@@ -253,22 +20,53 @@
                 "title": "action",
                 "anyOf": [
                   {
-                    "title": "ProvideLoan",
+                    "title": "MintR",
                     "dataType": "constructor",
                     "index": 0,
                     "fields": [
                       {
-                        "dataType": "bytes"
+                        "title": "OutputReference",
+                        "description": "An `OutputReference` is a unique reference to an output on-chain. The `output_index`\n corresponds to the position in the output list of the transaction (identified by its id)\n that produced that output",
+                        "anyOf": [
+                          {
+                            "title": "OutputReference",
+                            "dataType": "constructor",
+                            "index": 0,
+                            "fields": [
+                              {
+                                "title": "transaction_id",
+                                "description": "A unique transaction identifier, as the hash of a transaction body. Note that the transaction id\n isn't a direct hash of the `Transaction` as visible on-chain. Rather, they correspond to hash\n digests of transaction body as they are serialized on the network.",
+                                "anyOf": [
+                                  {
+                                    "title": "TransactionId",
+                                    "dataType": "constructor",
+                                    "index": 0,
+                                    "fields": [
+                                      {
+                                        "title": "hash",
+                                        "dataType": "bytes"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "title": "output_index",
+                                "dataType": "integer"
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   },
                   {
-                    "title": "CancelRequest",
+                    "title": "BurnR",
                     "dataType": "constructor",
                     "index": 1,
                     "fields": [
                       {
-                        "dataType": "integer"
+                        "dataType": "bytes"
                       }
                     ]
                   }
@@ -278,239 +76,22 @@
           }
         ]
       },
-      "compiledCode": "590ebd0100003232323232323232323232222533300632323232323232323232323253330123370e00290000991919191919299980c19b87001480084c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8cccccc888888c8c8c8c8c8c94ccc0d14ccc0d14ccc0d14ccc0d0010401452808018a50100214a020022940cdc39807999119198079bac3302f30303302f303000348001200023375e66060606266060606200290012400000466446464604a0026eb8c0fc004c0c4c94ccc0e0cdc3a400060766ea8004400454cc0e92412a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633223232323232323253330403370e0029000099190009824000981d001099ba5480092f5c060846ea8004004cc88c94ccc100cdc3800a4004266e9520024bd700991919ba548000cc120c0100052f5c06090002607400660846ea80080048c94ccc0fccdc3800a40042646466e95200033047375200297ae0375c608e0026072004266e9520024bd7018209baa00133017001233036303700148000cc0580048cc0d4c0d8005200033015001233034303500148008cc0780088cdd799819981a000a40000046eb0cc0c0c0c4cc0c0c0c400920004800000400800402c019200233332222323232323303b32533303b3370e00290000991919191919191919191919191919191919191919191919191919191919299982f183080109982d19299982d19b87001480004c8c8c8c94ccc18cc1980084cc17cc94ccc17ccdc3800a400026464a6660cc60d20042930a99831a49364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60ce00260b20082a6660be66e1c00520021323253330663069002149854cc18d2401364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60ce00260b20082a660c29212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630613754006660be64a6660be66e1c00520001323253330663069002149854cc18d241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016306700130590021533305f3370e00290010a4c2a660c29212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630613754002930a998302481364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016306400130640023062001305401c153305c4912b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305c3754036660b464a6660b466e1c005200013232323253330633066002149854cc181241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60c800260c80046eb8c188004c15006854cc1712412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305c3754032660b464a6660b466e1c005200013232323253330633066002149854cc181241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60c800260c80046eb8c188004c15005854cc1712412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305c375402a660b464a6660b466e1c005200013232323253330633066002149854cc181241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60c800260c80046eb8c188004c15004854cc1712412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305c3754022930a9982da481364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375a60be00260be0046eb8c174004c174008dd6982d800982d8011bad30590013059002375a60ae00260ae0046eb8c154004c154008dd6982980098298011bad30510013051002304f001304f002375a609a002609a004609600260960046eb4c124004c124008c11c004c11c008c114004c114008dd71821800981a8010a9981ea4812b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016303d3754002646464a66607aa66607a00420062940400452819b89301a302e37566606a606c00a90012400c66ebc008020cdc49bad33033303400648038ccc068dd599819981a001a40046eb8cc0ccc0d0cc0ccc0d0019200c48000dd719819981a19819981a0032401890011820000981919299981c99b8748010c0f0dd500088008a9981da492a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633031303200148010c0f8004c0c0c94ccc0dccdc3a400060746ea8004400454cc0e524012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633223301d3758660626064660626064004900024008466ebccc0c8c0cc005200000200400100a0040090063322323253330353370e00290010991919b89001005375a607a002605e0042940c0dcdd5000998161816998161816801240009000198151815998151815804a400090071bad3302a302b00848060cc084dd59981498151981498150042400090041981b1ba900533036375200c6606c6ea120024bd7019999111191919b8900333301537566605c605e00290011bae3302e302f00448000dd7198171817802240046076002605a64a66606866e1d20003037375400220022a6606c92012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e00163301800423375e6605a605c00290000021bac33028302933028302900748001200433028302900648008cc0a0c0a40192004375a66050605200c900319ba548000cc0d0dd49bae33027302800548000cc0d0cc09cc0a001520023303433027302800548010cc0d0dd41bad33027302800548018cc0d0cc09cc0a001520083303437506eb4cc09cc0a0015200a3303433027302800548030cc0d0dd41bad33027302800548038cc0d0dd41bad33027302800548040cc0d0dd49bae33027302800548048cc0d0dd41bad33027302800548050cc0d0dd41bad33027302800548058cc0d0dd41bad33027302800548060cc0d0dd48021981a1ba8323232001375a606e002605264a66606066e1d20023033375400220022a660649212a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633028302933028302900148001200033027302833027302800648001200e4bd7001181280aa4411c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e92280001300f3001001222533302e00214bd7009919299981598018010998188011998028028008018999802802800801981900198180011119299981419b87001480084cdd2a400497ae0132323374a9000198181802000a5eb80c0c0004c08800cc0a8dd500118008009129998150008a400026466e01200233003003001302d00130010012253330280011480004c8cdc0240046600600600260560024446464664464a66605066e1c0052002100213232001375a6060002604400660546ea8008005200033223253330273370e0029001099ba5480092f5c02646460080026eacc0bc004c08400cc0a4dd5001000919911980400100080080199911980400100080180118008009112999813001099ba5480092f5c0264646464a66604a66e3c0140044cdd2a4000660566ea00092f5c0266600e00e00600a6eb8c09c00cdd698138011815001981400118008009112999812001099ba5480092f5c0264646464a66604666e3c0140044cdd2a4000660526e980092f5c0266600e00e00600a6eb8c09400cdd598128011814001981300118008009112999811001099ba5480092f5c026464a66603e6006004266e952000330250024bd70099980280280080198130019812001181000098090010a50301a37540026601e602002290011800a4411c9f0b484d5860b6746ff652747ca3271330c413d4c13fe2de680a6f970023374a90001980d99ba548008cc06cdd4800a5eb80cc06ccdd2a400497ae04bd701bae301a001300c0021323332223300737566601e60206601e6020006900024010660386ea4004cc070dd49bae3300f301000248000cc070dd419b814800120024bd7000700824411c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e922800300c002301437540026601260140189000111919299980999b87001480004c92898068010a5030153754002660106006004466ebcdd38009ba700223332223330070030020010012223332223330080030020010022223301b374e660366ea4018cc06cdd48019980d9ba80024bd70000800a5eb80c00400488894ccc05400c40044c8c8c8c8ccc018004008cccc02002000c018014dd7180b0019bad30160023019004301700330010012222533301300310011323232323330060010023333008008003006005375c60280066eacc050008c05c010c05400cc0040048894ccc0400084cdd2a400497ae013232533300d300300213374a9000198099ba70024bd700999802802800801980a0019bac301200222323330010014800000c888cccc030cdc3802001009919980200219b8000348008c0540040048c02cdd50008a4c2c6002002444a666012004293099802980098058011998018019806001000ab9a5736ae7155ceaab9e5573eae815d0aba201",
-      "hash": "84eb5d466a8f1f640757260fa4962f1fcba527a748e1600cb4e650a5"
+      "compiledCode": "590402010000323232323232323232322253330053232323253330093370e002900009919191919191919191919191919191919299980d19b87001480004c8c8c8c8c8c8c8c8c94ccc08d4ccc08c00c400852808008a50337106eb4cc070c07401d20024820010c8c8cc88c8c94ccc09ccdc3800a4000264944c08800852818141baa00133003001253330263375e6604060426604060420029000240006604060420069000099b87375a6604060426604060420029000240046eb4cc080c08400d200214a00106eb0cc074c078cc074c07807d200048000c0040048894ccc0a00084cdd2a400497ae0132325333026300300213374a90001981580125eb804ccc01401400400cc0b000cc0a8008cc024dd59980d180d9980d180d80e240009004000998121ba9015330243752002660486ea120024bd70191b920010013322337160020040026eb4cc05cc0600092002375c6602c602e6602c602e0029000240006042002602a00426464646600c6eaccc05cc060cc05cc060065200048020004cc084dd4809198109ba900133021375066e052000480092f5c06eb8c084004c054008c06cdd500099809180980aa4000446464a66603666e1c00520001323322323370e601a646018002664464664464a66604a66e1c0052002100213232001375660580026040006604c6ea80080052f5bded8c066446601a00400200400200600290011bae3024001005004301600214a060386ea8004cc034c8ccc888ccc03c00c008004004888ccc888ccc04000c008004008888cc094dd3998129ba90063302537520066604a6ea00092f5c000200297ae000223375e6e9c004dd38011800800911299980e001099ba5480092f5c0264646464a66603866e3c0140044cdd2a4000660426e980092f5c0266600e00e00600a6eb8c07400cdd5980e8011810001980f001180080091299980c8008a5eb804c8c8c8c8cc078dd4800998030030019bae301a003375a6034004603a0046036002600200244a66602e0022900009919b8048008cc00c00c004c068004c00400488894ccc05c00c40044c8c8c8c8ccc018004008cccc02002000c018014dd7180c0019bad3018002301b004301900330010012222533301500310011323232323330060010023333008008003006005375c602c0066eacc058008c064010c05c00cc0040048894ccc0480084cdd2a400497ae0132325333010300300213374a90001980a9ba70024bd700999802802800801980b0019bac3014002375c602000260080042940c028dd5000998009801001a400444646660020029000001911199980599b8700400201123330040043370000690011809800800918049baa001149858c0040048894ccc0200085261330053001300a002333003003300b0020015734ae6d55ceaab9e5573eae815d0aba201",
+      "hash": "5a42c143d279a30b7a98b49f708a56bcf5da73a6ab623785c3d39185"
     },
     {
-      "title": "request_debt.request",
+      "title": "interest.interest",
       "datum": {
-        "title": "RequestDatum",
+        "title": "InterestDatum",
         "anyOf": [
           {
-            "title": "RequestDatum",
+            "title": "InterestDatum",
             "dataType": "constructor",
             "index": 0,
             "fields": [
               {
-                "title": "borrower_tn",
-                "dataType": "bytes"
-              },
-              {
-                "title": "borrower_address",
-                "description": "A Cardano `Address` typically holding one or two credential references.\n\n Note that legacy bootstrap addresses (a.k.a. 'Byron addresses') are\n completely excluded from Plutus contexts. Thus, from an on-chain\n perspective only exists addresses of type 00, 01, ..., 07 as detailed\n in [CIP-0019 :: Shelley Addresses](https://github.com/cardano-foundation/CIPs/tree/master/CIP-0019/#shelley-addresses).",
-                "anyOf": [
-                  {
-                    "title": "Address",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "title": "payment_credential",
-                        "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
-                        "anyOf": [
-                          {
-                            "title": "VerificationKeyCredential",
-                            "dataType": "constructor",
-                            "index": 0,
-                            "fields": [
-                              {
-                                "dataType": "bytes"
-                              }
-                            ]
-                          },
-                          {
-                            "title": "ScriptCredential",
-                            "dataType": "constructor",
-                            "index": 1,
-                            "fields": [
-                              {
-                                "dataType": "bytes"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "title": "stake_credential",
-                        "anyOf": [
-                          {
-                            "title": "Some",
-                            "description": "An optional value.",
-                            "dataType": "constructor",
-                            "index": 0,
-                            "fields": [
-                              {
-                                "title": "Referenced",
-                                "description": "Represent a type of object that can be represented either inline (by hash)\n or via a reference (i.e. a pointer to an on-chain location).\n\n This is mainly use for capturing pointers to a stake credential\n registration certificate in the case of so-called pointer addresses.",
-                                "anyOf": [
-                                  {
-                                    "title": "Inline",
-                                    "dataType": "constructor",
-                                    "index": 0,
-                                    "fields": [
-                                      {
-                                        "title": "Credential",
-                                        "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
-                                        "anyOf": [
-                                          {
-                                            "title": "VerificationKeyCredential",
-                                            "dataType": "constructor",
-                                            "index": 0,
-                                            "fields": [
-                                              {
-                                                "dataType": "bytes"
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "title": "ScriptCredential",
-                                            "dataType": "constructor",
-                                            "index": 1,
-                                            "fields": [
-                                              {
-                                                "dataType": "bytes"
-                                              }
-                                            ]
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "title": "Pointer",
-                                    "dataType": "constructor",
-                                    "index": 1,
-                                    "fields": [
-                                      {
-                                        "title": "slot_number",
-                                        "dataType": "integer"
-                                      },
-                                      {
-                                        "title": "transaction_index",
-                                        "dataType": "integer"
-                                      },
-                                      {
-                                        "title": "certificate_index",
-                                        "dataType": "integer"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          {
-                            "title": "None",
-                            "description": "Nothing.",
-                            "dataType": "constructor",
-                            "index": 1,
-                            "fields": []
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "title": "loan_asset",
-                "anyOf": [
-                  {
-                    "title": "CurrencySymbol",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "title": "policy_id",
-                        "dataType": "bytes"
-                      },
-                      {
-                        "title": "asset_name",
-                        "dataType": "bytes"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "title": "loan_amount",
-                "dataType": "integer"
-              },
-              {
-                "title": "interest_asset",
-                "anyOf": [
-                  {
-                    "title": "CurrencySymbol",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "title": "policy_id",
-                        "dataType": "bytes"
-                      },
-                      {
-                        "title": "asset_name",
-                        "dataType": "bytes"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "title": "interest_amount",
-                "dataType": "integer"
-              },
-              {
-                "title": "collateral_asset",
-                "anyOf": [
-                  {
-                    "title": "CurrencySymbol",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "title": "policy_id",
-                        "dataType": "bytes"
-                      },
-                      {
-                        "title": "asset_name",
-                        "dataType": "bytes"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "title": "collateral_amount",
-                "dataType": "integer"
-              },
-              {
-                "title": "loan_duration",
-                "dataType": "integer"
-              },
-              {
-                "title": "liquidate_policy",
-                "dataType": "bytes"
-              },
-              {
-                "title": "collateral_factor",
-                "dataType": "integer"
-              },
-              {
-                "title": "liquidation_commision",
-                "dataType": "integer"
-              },
-              {
-                "title": "request_expiration_time",
-                "dataType": "integer"
-              },
-              {
                 "title": "lender_tn",
                 "dataType": "bytes"
-              },
-              {
-                "title": "lend_time",
-                "dataType": "integer"
               }
             ]
           }
@@ -525,36 +106,15 @@
             "index": 0,
             "fields": [
               {
-                "title": "action",
-                "anyOf": [
-                  {
-                    "title": "ProvideLoan",
-                    "dataType": "constructor",
-                    "index": 0,
-                    "fields": [
-                      {
-                        "dataType": "bytes"
-                      }
-                    ]
-                  },
-                  {
-                    "title": "CancelRequest",
-                    "dataType": "constructor",
-                    "index": 1,
-                    "fields": [
-                      {
-                        "dataType": "integer"
-                      }
-                    ]
-                  }
-                ]
+                "title": "some_int",
+                "dataType": "integer"
               }
             ]
           }
         ]
       },
-      "compiledCode": "590e030100003232323232323232323232222533300632323232323232323232323253330123370e00290000991919191919299980c19b87001480084c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8cccccc888888c8c8c8c8c94ccc0c94ccc0c94ccc0c8010400c52808010a50100114a066e1cc038cc88c8cc038dd6198169817198169817001a40009000119baf3302e302f3302e302f001480092000002332232323023001375c607a002605e64a66606c66e1d20003039375400220022a6607092012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e0016332232323232323232533303e3370e0029000099190009823000981c001099ba5480092f5c060806ea8004004cc88c94ccc0f8cdc3800a4004266e9520024bd700991919ba548000cc118c0100052f5c0608c002607000660806ea80080048c94ccc0f4cdc3800a40042646466e95200033045375200297ae0375c608a002606e004266e9520024bd70181f9baa00133016001233034303500148000cc0540048cc0ccc0d0005200033014001233032303300148008cc0700088cdd7998189819000a40000046eb0cc0b8c0bccc0b8c0bc00920004800000400800402801520023333222232323232330393253330393370e00290000991919191919191919191919191919191919191919191919191919191919299982e182f80109982c19299982c19b87001480004c8c8c8c94ccc184c1900084cc174c94ccc174cdc3800a400026464a6660c860ce0042930a99830a49364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60ca00260ae0082a6660ba66e1c00520021323253330643067002149854cc1852401364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60ca00260ae0082a660be9212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305f3754006660ba64a6660ba66e1c00520001323253330643067002149854cc185241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016306500130570021533305d3370e00290010a4c2a660be9212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305f3754002930a9982f2481364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016306200130620023060001305201c153305a4912b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305a3754036660b064a6660b066e1c005200013232323253330613064002149854cc179241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60c400260c40046eb8c180004c14806854cc1692412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305a3754032660b064a6660b066e1c005200013232323253330613064002149854cc179241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60c400260c40046eb8c180004c14805854cc1692412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305a375402a660b064a6660b066e1c005200013232323253330613064002149854cc179241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60c400260c40046eb8c180004c14804854cc1692412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305a3754022930a9982ca481364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375a60ba00260ba0046eb8c16c004c16c008dd6982c800982c8011bad30570013057002375a60aa00260aa0046eb8c14c004c14c008dd6982880098288011bad304f001304f002304d001304d002375a60960026096004609200260920046eb4c11c004c11c008c114004c114008c10c004c10c008dd7182080098198010a9981da4812b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016303b3754002646464a666076a66607600420062940400452819b893019302c375666066606800a90012400c66ebc008020cdc49bad33031303200648038ccc888c8c8cc88c94ccc100cdc3800a40042004264640026eb4c120004c0e800cc108dd5001000a4000664464a66607e66e1c005200213374a900125eb804c8c8c010004dd59823800981c80198209baa0020012332233020002001001003332233020002001003002375666062606400690011bae330313032330313032006480312000375c66062606466062606400c900624004607c002606064a66606e66e1d2004303a375400220022a6607292012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e00163302f303000148010c0f0004c0b8c94ccc0d4cdc3a400060706ea8004400454cc0dd24012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633223301b37586605e60606605e6060004900024008466ebccc0c0c0c400520000020040010090030080053322323253330333370e00290010991919b89001005375a6076002605a0042940c0d4dd50009981518159981518158012400090001981418149981418148042400090071bad33028302900748060cc07cdd5998139814198139814003a400090041981a1ba900433034375200a660686ea120024bd7019ba548000cc0ccdd480219819998131813802a4004660666604c604e00a9002198199ba8375a6604c604e00a900319819998131813802a4010660666ea0dd6998131813802a4014660666604c604e00a9006198199ba8375a6604c604e00a9007198199ba8375a6604c604e00a9008198199ba9375c6604c604e00a9009198199ba8375a6604c604e00a900a198199ba8375a6604c604e00a900b198199ba8375a6604c604e00a900c198199ba9375c6604c604e00a900d198199ba8323232001375a606c002605064a66605e66e1d20023032375400220022a660629212a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633027302833027302800148001200033026302733026302700648001200e4bd7001101200a24411c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e92280001200e3001001222533302d00214bd7009919299981518018010998180011998028028008018999802802800801981880198178011119299981399b87001480084cdd2a400497ae0132323374a9000198179802000a5eb80c0bc004c08400cc0a4dd500118008009129998148008a400026466e01200233003003001302c00130010012253330270011480004c8cdc0240046600600600260540026002002444a66604c004266e9520024bd70099191919299981299b8f00500113374a9000198159ba80024bd7009998038038018029bae3027003375a604e004605400660500046002002444a666048004266e9520024bd70099191919299981199b8f00500113374a9000198149ba60024bd7009998038038018029bae30250033756604a0046050006604c0046002002444a666044004266e9520024bd7009919299980f9801801099ba548000cc0940092f5c0266600a00a002006604c0066048004604000260240042940c068dd5000998079808008a400460029111c9f0b484d5860b6746ff652747ca3271330c413d4c13fe2de680a6f970023374a90001980d99ba548008cc06cdd4800a5eb80cc06ccdd2a400497ae04bd701bae301a001300c0021323332223300737566601e60206601e6020006900024010660386ea4004cc070dd49bae3300f301000248068cc070dd419b814800120024bd7000700824411c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e922800300c002301437540026601260140189000111919299980999b87001480004c92898068010a5030153754002660106006004466ebcdd38009ba700223332223330070030020010012223332223330080030020010022223301b374e660366ea4018cc06cdd48019980d9ba80024bd70000800a5eb80c00400488894ccc05400c40044c8c8c8c8ccc018004008cccc02002000c018014dd7180b0019bad30160023019004301700330010012222533301300310011323232323330060010023333008008003006005375c60280066eacc050008c05c010c05400cc0040048894ccc0400084cdd2a400497ae013232533300d300300213374a9000198099ba70024bd700999802802800801980a0019bac301200222323330010014800000c888cccc030cdc3802001009919980200219b8000348008c0540040048c02cdd50008a4c2c6002002444a666012004293099802980098058011998018019806001000ab9a5736ae7155ceaab9e5573eae815d0aba201",
-      "hash": "9576ae5130b9d9fda9258f7e2aaf8cf1369a61397c948ed8e3828118"
+      "compiledCode": "5902ad01000032323232323232323232222533300632323232323232323232323232323322323253330183370e002900009919911919b87300d32300c00133223233223253330223370e00290010801099190009bab3029001301c0033023375400400297adef6c6033223300d00200100200100300148008dd7181080080280218090010a50301937540026601a6466644466601e006004002002444666444666020006004002004444660446e9ccc088dd4803198111ba900333022375000497ae00010014bd70001119baf374e0026e9c008dd5998069807198069807007a400090041980c9ba94891c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228003301937526eb8cc034c038045200033019375066e052000480092f5c06002002444a666032004266e9520024bd70099191919299980c99b8f00500113374a90001980f1ba60024bd7009998038038018029bae301a00337566034004603a0066036004600200244a66602c002297ae01323232323301b37520026600c00c0066eb8c05c00cdd6980b801180d001180c000980080091299980a0008a400026466e01200233003003001301700130010012222533301400310011323232323330060010023333008008003006005375c602a0066eb4c054008c060010c05800cc00400488894ccc04800c40044c8c8c8c8ccc018004008cccc02002000c018014dd718098019bab3013002301600430140033001001222533300f00213374a900125eb804c8c94ccc034c00c0084cdd2a4000660246e9c0092f5c0266600a00a00200660260066eb0c04400888c8ccc0040052000003222333300c3370e008004024466600800866e0000d200230140010012300a37540022930b180080091129998040010a4c26600a600260140046660060066016004002ae695cdaab9d5573caae7d5d02ba15745",
+      "hash": "cb81021628bfe0ce02fc6f36558bb42515faaba4cfe7969c091a85e1"
     },
     {
       "title": "collateral.collateral",
@@ -828,8 +388,283 @@
           }
         ]
       },
-      "compiledCode": "590b6f010000323232323232323232323222253330063232323232323232323232323253330133370e0029000099191919191919191919191919191919191919191919191919999111191919191919299981a80288008a5033332222323232323303d32533303d3370e002900009919299982218238010a4c2a660829201364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c608a002606e0042a6607e9212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016303f37540026464a66607c00220042940cdd78010041980b181680311991191919191919b890013332223232332232533304c3370e00290010801099190009bad30540013046003304e37540040029000199119299982599b87001480084cdd2a400497ae0132323004001375660a6002608a006609a6ea80080048cc88cc08400800400400ccc88cc08400800400c00801c01400cdd6982500098250011bae30480013048002375c608c0026eaccc0d8c0dc01120020013042001303432533303b3370e9002181f1baa0011001153303d49012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633033303400148010c100004c0c8c94ccc0e4cdc3a400060786ea8004400454cc0ed24012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e00163322330163758660666068660666068004900024008466ebccc0d0c0d4005200000200400100900500100733223200133332222333301b00400300200100200122232533303932533303f00114a229400044cdd2a400497ae013374a90001981f9ba60014bd7019999111199980d00200180100080100091119299981e19b87001480004cdd2a400497ae013374a9000198211ba80014bd7019b8000200102101e002001333018375c66056605866056605800c9002240046eb8cc0acc0b0cc0acc0b0019200448008dd69981598160032400c6644646464a66606c66e24008dd699817981800224020264a66606e66e200040084ccc074dd7198181818998181818802a401090011bae330303031330303031005480212002002133301d375c66060606266060606200a9004240046eb8cc0c0c0c4cc0c0c0c4015200848008004cdc119b83002375a6605e606000890081bad3302f3030004480284ccc070dd71981798181981798180022401090011bae3302f30303302f3030004480212002375a6605e6060008900519b83337046eb4cc0b8c0bc00d200a48202d4612080897a337020026eb4cc0b4c0b8009201c302b3302c302d3302c302d00248001200e00600533020375666052605466052605400a9000240106606c6ea4008cc0d8dd49bae33029302a00448000cc0d8dd419b814800120024bd7019ba548000cc0d4dd49bae330283029003480692f5c004c05002e9111c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228003001001222533303100213374a900125eb804c8c8c8c94ccc0c0cdc7802800899ba548000cc0d8dd400125eb804ccc01c01c00c014dd718190019bad3032002303500330330023001001222533302f00213374a900125eb804c8c8c8c94ccc0b8cdc7802800899ba548000cc0d0dd300125eb804ccc01c01c00c014dd718180019bab3030002303300330310023001001222533302d00214a226464a6660546006004266600a00a0020062940c0c400cdd6181780118008009112999815801099ba5480092f5c026464a6660506006004266e9520003302e0024bd700999802802800801981780198168011800800911112999815802080189919191919999804804801999998050038008010030028030029bae302c003375a6058004605e00a605a0086002002444444a66605400a26605666ec0dd48021ba80034bd6f7b630099191919299981499baf330050080013374a900025eb804cc0bccdd81ba9008375000e0122a66605266e3c0200044c8c94ccc0accdc3800a4000264646606666ec0dd48061ba8001007375a6066002604a004200a605a6ea8004ccc01802001c0084cc0bccdd81ba9001375000466666601401400601000e00c00a6eb8c0ac00cdd69815801181700318160029800800911112999813802080189919191919999804804801999998050038008010030028030029bae302800337566050004605600a60520086002002444444a66604c00a26604e66ec0dd48021ba60034bd6f7b630099191919299981299baf330050080013374a900025eb804cc0accdd81ba9008374c00e0122a66604a66e3c0200044c8c94ccc09ccdc3800a4000264646605e66ec0dd48061ba60010073756605e0026042004200a60526ea8004ccc01802001c0084cc0accdd81ba9001374c00466666601401400601000e00c00a6eb8c09c00cdd59813801181500318140029111919000999991111999804802001801000a5eb7bdb18001000401ccccc8888cccc02c01000c0080052f5bded8c000400200c600200244444a66604400826604666ec0dd48019ba60024bd6f7b630099191919299981099baf330050070013374a900025eb804cc09ccdd81ba9007374c00c0102a66604266e3c01c0044cc09ccdd81ba9007374c00c00626604e66ec0dd48009ba600233333009009003007006005375c60460066eacc08c008c098014c090010894ccc064cdc8001000899ba5480012f5c02a66603266e3c0080044cdd2a400497ae013374a900225eb80c004004888894ccc07c0104cc080cdd81ba9003375000497adef6c60132323232533301e3375e6600a00e00266e9520004bd7009981219bb0375200e6ea001802054ccc078cdc780380089981219bb0375200e6ea001800c4cc090cdd81ba900137500046666601201200600e00c00a6eb8c08000cdd69810001181180298108021919ba548000cc06ccdd2a4004660366ea40052f5c06603666e9520024bd7025eb812211cadd97b4a3ce5497d15b8b99f583782f6ff9f47c4d17eb286d44f03c500300d0021323233332222323232533301c0031533301c00214a220022940cc02cdd59980a180a9980a180a803240009004198109ba9375c66028602a00a9009198109ba9003330213750900125eb80cdc4180919809980a19809980a002a4000900719b80375a66026602800890081bad33013301400448070cc024dd59980918099980918098022400090041980f9ba90023301f37526eb8cc048c04c00d201a3301f375066e052000480092f5c002002491011c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e922800001375c6036002601a004602a6ea8004cc028c02c035200022323253330143370e0029000099251300e00214a0602c6ea8004cc020c00c0088cdd79ba7001374e004466644466600e006004002002444666444666010006004002004444660386e9ccc070dd48031980e1ba90033301c375000497ae00010014bd7018008009111299980b001880089919191919980300080119998040040018030029bae3017003375a602e0046034008603000660020024444a666028006200226464646466600c002004666601001000600c00a6eb8c05400cdd5980a801180c002180b00198008009112999808801099ba5480092f5c026464a66601c6006004266e95200033014374e00497ae01333005005001003301500337586026004464640026eb4c044004c00cc94ccc028cdc3a4004601a6ea8004400454cc0312412a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633002300333002300300148001200022323330010014800000c888cccc030cdc3802001009919980200219b8000348008c0540040048c02cdd50008a4c2c6002002444a666012004293099802980098058011998018019806001000ab9a5736ae7155ceaab9e5573eae815d0aba201",
-      "hash": "d08047645baf0318db5367d51c9af0ce86ca6b20419c4acaf1aa957b"
+      "compiledCode": "590c08010000323232323232323232323222253330063232323232323232323232323232323232323232533301a3370e002900009919191919191919191919191919191919191919191919999111191919191919299981d00288008a503333222232323232330423253330423370e002900009919299982498260010a4c2a6608c9201364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c609400260780042a660889212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016304437540026464a66608600220042940cdd78010041980a181900311991191919191919b89001333222323233223253330513370e00290010801099190009bad3059001304b003305337540040029000199119299982819b87001480084cdd2a400497ae0132323004001375660b0002609400660a46ea80080048cc88cc08400800400400ccc0d800c00801c01400cdd6982780098278011bae304d001304d002375c60960026eaccc0ecc0f00112002001304700130393253330403370e900218219baa0011001153304249012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633038303900148010c114004c0dcc94ccc0f8cdc3a400060826ea8004400454cc10124012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e00163322330143758660706072660706072004900024008466ebccc0e4c0e8005200000200400100900500100733223200133332222333301900400300200100200122232533303e32533304400114a229400044cdd2a400497ae013374a9000198221ba60014bd7019999111199980c00200180100080100091119299982099b87001480004cdd2a400497ae013374a9000198239ba80014bd7019b8000200101f01c002001333016375c66060606266060606200c9002240046eb8cc0c0c0c4cc0c0c0c4019200448008dd69981818188032400c6644646464a66607666e24008dd69981a181a80224020264a66607866e200040084ccc06cdd71981a981b1981a981b002a401090011bae330353036330353036005480212002002133301b375c6606a606c6606a606c00a9004240046eb8cc0d4c0d8cc0d4c0d8015200848008004cdc119b83002375a66068606a00890081bad330343035004480284ccc068dd71981a181a9981a181a8022401090011bae330343035330343035004480212002375a66068606a008900519b83337046eb4cc0ccc0d000d200a48202d4612080897a337020026eb4cc0c8c0cc009201c303033031303233031303200248001200e0060053301e37566605c605e6605c605e00a900024010660766ea4008cc0ecdd49bae3302e302f00448000cc0ecdd419b814800120024bd7019ba548000cc0e8dd49bae3302d302e003480692f5c005605a02a9111c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228003001001222533303600213374a900125eb804c8c8c8c94ccc0d4cdc7802800899ba548000cc0ecdd400125eb804ccc01c01c00c014dd7181b8019bad3037002303a00330380023001001222533303400214a226464a6660626006004266600a00a0020062940c0e000cdd6181b00118008009112999819001099ba5480092f5c026464a66605e6006004266e952000330350024bd700999802802800801981b001981a0011800800911112999819002080189919191919999804804801999998050038008010030028030029bae3033003375a6066004606c00a60680086002002444444a66606200a26606466ec0dd48021ba80034bd6f7b630099191919299981819baf330050080013374a900025eb804cc0d8cdd81ba9008375000e0122a66606066e3c0200044c8c94ccc0c8cdc3800a4000264646607466ec0dd48061ba8001007375a60740026058004200a60686ea8004ccc01802001c0084cc0d8cdd81ba9001375000466666601401400601000e00c00a6eb8c0c800cdd69819001181a80318198029800800911112999817002080189919191919999804804801999998050038008010030028030029bae302f0033756605e004606400a60600086002002444444a66605a00a26605c66ec0dd48021ba60034bd6f7b630099191919299981619baf330050080013374a900025eb804cc0c8cdd81ba9008374c00e0122a66605866e3c0200044c8c94ccc0b8cdc3800a4000264646606c66ec0dd48061ba60010073756606c0026050004200a60606ea8004ccc01802001c0084cc0c8cdd81ba9001374c00466666601401400601000e00c00a6eb8c0b800cdd59817001181880318178029111919000999991111999804802001801000a5eb7bdb18001000401ccccc8888cccc02c01000c0080052f5bded8c000400200c600200244444a66605200826605466ec0dd48019ba60024bd6f7b630099191919299981419baf330050070013374a900025eb804cc0b8cdd81ba9007374c00c0102a66605066e3c01c0044cc0b8cdd81ba9007374c00c00626605c66ec0dd48009ba600233333009009003007006005375c60540066eacc0a8008c0b4014c0ac010894ccc080cdc8001000899ba5480012f5c02a66604066e3c0080044cdd2a400497ae013374a900225eb80c004004888894ccc0980104cc09ccdd81ba9003375000497adef6c6013232323253330253375e6600a00e00266e9520004bd7009981599bb0375200e6ea001802054ccc094cdc780380089981599bb0375200e6ea001800c4cc0accdd81ba900137500046666601201200600e00c00a6eb8c09c00cdd69813801181500298140021919ba548000cc088cdd2a4004660446ea40052f5c06604466e9520024bd7025eb8122011cadd97b4a3ce5497d15b8b99f583782f6ff9f47c4d17eb286d44f03c5003014002132323333222232323253330230031533302300214a220022940cc02cdd59980d980e1980d980e003240009004198141ba9375c66036603800a9009198141ba9003330283750900125eb80cdc4180c9980d180d9980d180d802a4000900719b80375a66034603600890081bad3301a301b00448070cc024dd59980c980d1980c980d002240009004198131ba90023302637526eb8cc064c06800d201a33026375066e052000480092f5c002e03291011c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e922800001375c6044002602800460386ea8004cc044c0480512000223232533301b3370e002900009919911919b87300e32300d00133223233223253330253370e00290010801099190009bab302d001301f0033027375400400297adef6c603300b00200100300148008dd71812800802802180a8010a50301d37540026601e6014004466ebcdd38009ba700222330030020013001001222533301c00213374a900125eb804c8c8c8c94ccc06ccdc7802800899ba548000cc084dd300125eb804ccc01c01c00c014dd7180e8019bab301d0023020003301e002300100122533301900114bd700991919191980f1ba900133006006003375c60340066eb4c068008c074008c06c004c004004894ccc05c0045200013233700900119801801800980d00091999111998038018010008009111999111998040018010008011111980e1ba73301c375200c660386ea400ccc070dd400125eb800040052f5c060020024444a66602c006200226464646466600c002004666601001000600c00a6eb8c05c00cdd6980b801180d002180c00198008009111299980a001880089919191919980300080119998040040018030029bae30150033756602a0046030008602c0066002002444a666022004266e9520024bd700991929998071801801099ba548000cc050dd380125eb804ccc01401400400cc05400cdd61809801119190009bad3011001300332533300a3370e900118069baa0011001153300c49012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633002300333002300300148001200022323330010014800000c888cccc030cdc3802001009919980200219b8000348008c0540040048c02cdd50008a4c2c6002002444a666012004293099802980098058011998018019806001000ab9a5736ae7155ceaab9e5573eae815d0aba201",
+      "hash": "e1266f82730c00cce3161b2a66a925b2454753a7f144b5e1bc9f2daf"
+    },
+    {
+      "title": "request.request",
+      "datum": {
+        "title": "RequestDatum",
+        "anyOf": [
+          {
+            "title": "RequestDatum",
+            "dataType": "constructor",
+            "index": 0,
+            "fields": [
+              {
+                "title": "borrower_tn",
+                "dataType": "bytes"
+              },
+              {
+                "title": "borrower_address",
+                "description": "A Cardano `Address` typically holding one or two credential references.\n\n Note that legacy bootstrap addresses (a.k.a. 'Byron addresses') are\n completely excluded from Plutus contexts. Thus, from an on-chain\n perspective only exists addresses of type 00, 01, ..., 07 as detailed\n in [CIP-0019 :: Shelley Addresses](https://github.com/cardano-foundation/CIPs/tree/master/CIP-0019/#shelley-addresses).",
+                "anyOf": [
+                  {
+                    "title": "Address",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "title": "payment_credential",
+                        "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
+                        "anyOf": [
+                          {
+                            "title": "VerificationKeyCredential",
+                            "dataType": "constructor",
+                            "index": 0,
+                            "fields": [
+                              {
+                                "dataType": "bytes"
+                              }
+                            ]
+                          },
+                          {
+                            "title": "ScriptCredential",
+                            "dataType": "constructor",
+                            "index": 1,
+                            "fields": [
+                              {
+                                "dataType": "bytes"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "title": "stake_credential",
+                        "anyOf": [
+                          {
+                            "title": "Some",
+                            "description": "An optional value.",
+                            "dataType": "constructor",
+                            "index": 0,
+                            "fields": [
+                              {
+                                "title": "Referenced",
+                                "description": "Represent a type of object that can be represented either inline (by hash)\n or via a reference (i.e. a pointer to an on-chain location).\n\n This is mainly use for capturing pointers to a stake credential\n registration certificate in the case of so-called pointer addresses.",
+                                "anyOf": [
+                                  {
+                                    "title": "Inline",
+                                    "dataType": "constructor",
+                                    "index": 0,
+                                    "fields": [
+                                      {
+                                        "title": "Credential",
+                                        "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
+                                        "anyOf": [
+                                          {
+                                            "title": "VerificationKeyCredential",
+                                            "dataType": "constructor",
+                                            "index": 0,
+                                            "fields": [
+                                              {
+                                                "dataType": "bytes"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "title": "ScriptCredential",
+                                            "dataType": "constructor",
+                                            "index": 1,
+                                            "fields": [
+                                              {
+                                                "dataType": "bytes"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "title": "Pointer",
+                                    "dataType": "constructor",
+                                    "index": 1,
+                                    "fields": [
+                                      {
+                                        "title": "slot_number",
+                                        "dataType": "integer"
+                                      },
+                                      {
+                                        "title": "transaction_index",
+                                        "dataType": "integer"
+                                      },
+                                      {
+                                        "title": "certificate_index",
+                                        "dataType": "integer"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "title": "None",
+                            "description": "Nothing.",
+                            "dataType": "constructor",
+                            "index": 1,
+                            "fields": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "loan_asset",
+                "anyOf": [
+                  {
+                    "title": "CurrencySymbol",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "title": "policy_id",
+                        "dataType": "bytes"
+                      },
+                      {
+                        "title": "asset_name",
+                        "dataType": "bytes"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "loan_amount",
+                "dataType": "integer"
+              },
+              {
+                "title": "interest_asset",
+                "anyOf": [
+                  {
+                    "title": "CurrencySymbol",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "title": "policy_id",
+                        "dataType": "bytes"
+                      },
+                      {
+                        "title": "asset_name",
+                        "dataType": "bytes"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "interest_amount",
+                "dataType": "integer"
+              },
+              {
+                "title": "collateral_asset",
+                "anyOf": [
+                  {
+                    "title": "CurrencySymbol",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "title": "policy_id",
+                        "dataType": "bytes"
+                      },
+                      {
+                        "title": "asset_name",
+                        "dataType": "bytes"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "collateral_amount",
+                "dataType": "integer"
+              },
+              {
+                "title": "loan_duration",
+                "dataType": "integer"
+              },
+              {
+                "title": "liquidate_policy",
+                "dataType": "bytes"
+              },
+              {
+                "title": "collateral_factor",
+                "dataType": "integer"
+              },
+              {
+                "title": "liquidation_commision",
+                "dataType": "integer"
+              },
+              {
+                "title": "request_expiration_time",
+                "dataType": "integer"
+              },
+              {
+                "title": "lender_tn",
+                "dataType": "bytes"
+              },
+              {
+                "title": "lend_time",
+                "dataType": "integer"
+              }
+            ]
+          }
+        ]
+      },
+      "redeemer": {
+        "title": "Redeemer",
+        "anyOf": [
+          {
+            "title": "Redeemer",
+            "dataType": "constructor",
+            "index": 0,
+            "fields": [
+              {
+                "title": "action",
+                "anyOf": [
+                  {
+                    "title": "ProvideLoan",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "dataType": "bytes"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "CancelRequest",
+                    "dataType": "constructor",
+                    "index": 1,
+                    "fields": [
+                      {
+                        "dataType": "integer"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "compiledCode": "590f54010000323232323232323232323222253330063232323232323232323232323232323232323253330193370e00290000991919191919299980f99b87001480084c8c8c8c8c8c8c8c8c8c8c8c8c8c8cccccc888888c8c8c8c8c8c94ccc0e54ccc0e54ccc0e54ccc0e4010401452808018a50100214a020022940cdc39807999119198079bac33034303533034303500348001200023375e6606a606c6606a606c0029001240000046644646460460026eb8c110004c0d8c94ccc0f4cdc3a400060806ea8004400454cc0fd2412a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633223232323232323253330453370e0029000099190009826800981f801099ba5480092f5c0608e6ea8004004cc88c94ccc114cdc3800a4004266e9520024bd700991919ba548000cc134c0100052f5c0609a002607e006608e6ea80080048c94ccc110cdc3800a40042646466e9520003304c375200297ae0375c6098002607c004266e9520024bd7018231baa0013301700123303b303c00148000cc0580048cc0e8c0ec005200033015001233039303a00148008cc0700088cdd79981c181c800a40000046eb0cc0d4c0d8cc0d4c0d800920004800000400800402c01920023333222232323232330403253330403370e002900009919191919191919191919191919191919191919191919191919191919192999831983300109982f99299982f99b87001480004c8c8c8c94ccc1a0c1ac0084cc190c94ccc190cdc3800a400026464a6660d660dc0042930a99834249364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60d800260bc0082a6660c866e1c005200213232533306b306e002149854cc1a12401364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60d800260bc0082a660cc9212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630663754006660c864a6660c866e1c005200013232533306b306e002149854cc1a1241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016306c001305e002153330643370e00290010a4c2a660cc9212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630663754002930a99832a481364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016306900130690023067001305901c15330614912b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630613754036660be64a6660be66e1c00520001323232325333068306b002149854cc195241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60d200260d20046eb8c19c004c16406854cc1852412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630613754032660be64a6660be66e1c00520001323232325333068306b002149854cc195241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60d200260d20046eb8c19c004c16405854cc1852412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e7400163061375402a660be64a6660be66e1c00520001323232325333068306b002149854cc195241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60d200260d20046eb8c19c004c16404854cc1852412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630613754022930a998302481364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375a60c800260c80046eb8c188004c188008dd6983000098300011bad305e001305e002375a60b800260b80046eb8c168004c168008dd6982c000982c0011bad3056001305600230540013054002375a60a400260a400460a000260a00046eb4c138004c138008c130004c130008c128004c128008dd71824000981d0010a9982124812b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630423754002646464a666084a66608400420062940400452819b89301a3033375666074607600a90012400c66ebc008020cdc49bad33038303900648038ccc068dd59981c181c801a40046eb8cc0e0c0e4cc0e0c0e4019200c48000dd71981c181c9981c181c8032401890011822800981b99299981f19b8748010c104dd500088008a998202492a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633036303700148010c10c004c0d4c94ccc0f0cdc3a4000607e6ea8004400454cc0f924012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633223301b37586606c606e6606c606e004900024008466ebccc0dcc0e0005200000200400100a00400900633223232533303a3370e00290010991919b89001005375a608400260680042940c0f0dd5000998189819198189819001240009000198179818198179818004a400090071bad3302f303000848060cc07cdd59981718179981718178042400090041981d9ba90053303b375200c660766ea120024bd7019999111191919b89003333015375666066606800290011bae33033303400448000dd719819981a002240046080002606464a66607266e1d2000303c375400220022a6607692012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e00163301600423375e66064606600290000021bac3302d302e3302d302e0074800120043302d302e00648008cc0b4c0b80192004375a6605a605c00c900319ba548000cc0e4dd49bae3302c302d00548000cc0e4cc0b0c0b40152002330393302c302d00548010cc0e4dd41bad3302c302d00548018cc0e4cc0b0c0b401520083303937506eb4cc0b0c0b4015200a330393302c302d00548030cc0e4dd41bad3302c302d00548038cc0e4dd41bad3302c302d00548040cc0e4dd49bae3302c302d00548048cc0e4dd41bad3302c302d00548050cc0e4dd41bad3302c302d00548058cc0e4dd41bad3302c302d00548060cc0e4dd48021981c9ba8323232001375a6078002605c64a66606a66e1d20023038375400220022a6606e9212a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e00163302d302e3302d302e0014800120003302c302d3302c302d00648001200e4bd70014015009a4411c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e92280001100d3001001222533303300214bd70099192999818180180109981b0011998028028008018999802802800801981b801981a8011119299981699b87001480084cdd2a400497ae0132323374a90001981a9802000a5eb80c0d4004c09c00cc0bcdd500118008009129998178008a400026466e012002330030030013032001300100122533302d0011480004c8cdc0240046600600600260600024446464664464a66605a66e1c0052002100213232001375a606a002604e006605e6ea80080052000332232533302c3370e0029001099ba5480092f5c02646460080026eacc0d0004c09800cc0b8dd500100091991198040010008008019980980180118008009112999815801099ba5480092f5c0264646464a66605466e3c0140044cdd2a4000660606ea00092f5c0266600e00e00600a6eb8c0b000cdd698160011817801981680118008009112999814801099ba5480092f5c026464a66604c6006004266e9520003302c0024bd700999802802800801981680198158011813800980c8010a50302137540026602c602e03090011800a451c9f0b484d5860b6746ff652747ca3271330c413d4c13fe2de680a6f970023374a90001981119ba548008cc088dd4800a5eb80cc088cdd2a400497ae04bd701bae302100130130021323332223300737566602c602e6602c602e006900024010660466ea4004cc08cdd49bae33016301700248000cc08cdd419b814800120024bd7000a80ba4411c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228003013002301b37540026602060220269000111919299980d19b87001480004c8cc88c8cdc39807191806800999119199119299981219b870014800840084c8c8004dd59816000980f00198131baa0020014bd6f7b63019805801000801800a40046eb8c090004014010c050008528180e1baa0013300f300a00223375e6e9c004dd380111198018010009800800911299980d801099ba5480092f5c0264646464a66603466e3c0140044cdd2a4000660406e980092f5c0266600e00e00600a6eb8c07000cdd5980e001180f801980e801180080091299980c0008a5eb804c8c8c8c8cc074dd4800998030030019bae3019003375a603200460380046034002600200244a66602c0022900009919b8048008cc00c00c004c0640048ccc888ccc01c00c008004004888ccc888ccc02000c008004008888cc06cdd39980d9ba90063301b3752006660366ea00092f5c000200297ae030010012222533301500310011323232323330060010023333008008003006005375c602c0066eb4c058008c064010c05c00cc00400488894ccc04c00c40044c8c8c8c8ccc018004008cccc02002000c018014dd7180a0019bab3014002301700430150033001001222533301000213374a900125eb804c8c94ccc034c00c0084cdd2a4000660266e9c0092f5c0266600a00a00200660280066eb0c04800888c8ccc0040052000003222333300c3370e008004026466600800866e0000d200230150010012300b37540022930b180080091129998048010a4c26600a600260160046660060066018004002ae695cdab9c5573aaae7955cfaba05742ae89",
+      "hash": "7f89aeb58a4ae3673599c2e5375ee98b2087431574864a2c8f9a950f"
     },
     {
       "title": "liquidation.liquidation",
@@ -865,48 +700,244 @@
           }
         ]
       },
-      "compiledCode": "5901ca01000032323232323232323232222533300632323232323232323322323253330123370e0029000099251300c00214a060266ea8004cc01cc8ccc888ccc02400c008004004888ccc888ccc02800c008004008888cc070dd39980e1ba90063301c3752006660386ea00092f5c000200297ae000223375e6e9c004dd38011bab3300730083300730080094800120083301337529111c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228003301337526eb8cc01cc02002d200033013375066e052000480092f5c060020024444a666028006200226464646466600c002004666601001000600c00a6eb8c05400cdd6980a801180c002180b001980080091112999809001880089919191919980300080119998040040018030029bae301300337566026004602c00860280066002002444a66601e004266e9520024bd700991929998069801801099ba548000cc048dd380125eb804ccc01401400400cc04c00cdd618088011119199800800a4000006444666601866e1c0100080488ccc010010cdc0001a40046028002002460146ea8004526163001001222533300800214984cc014c004c028008ccc00c00cc02c0080055cd2b9b5573aaae7955cfaba05742ae89",
-      "hash": "2349b3d18162a5636f7290af661db06c0ad1d9a656ec64640ff07b2d"
+      "compiledCode": "5902ad01000032323232323232323232222533300632323232323232323232323232323322323253330183370e002900009919911919b87300d32300c00133223233223253330223370e00290010801099190009bab3029001301c0033023375400400297adef6c6033223300d00200100200100300148008dd7181080080280218090010a50301937540026601a6466644466601e006004002002444666444666020006004002004444660446e9ccc088dd4803198111ba900333022375000497ae00010014bd70001119baf374e0026e9c008dd5998069807198069807007a400090041980c9ba94891c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228003301937526eb8cc034c038045200033019375066e052000480092f5c06002002444a666032004266e9520024bd70099191919299980c99b8f00500113374a90001980f1ba60024bd7009998038038018029bae301a00337566034004603a0066036004600200244a66602c002297ae01323232323301b37520026600c00c0066eb8c05c00cdd6980b801180d001180c000980080091299980a0008a400026466e01200233003003001301700130010012222533301400310011323232323330060010023333008008003006005375c602a0066eb4c054008c060010c05800cc00400488894ccc04800c40044c8c8c8c8ccc018004008cccc02002000c018014dd718098019bab3013002301600430140033001001222533300f00213374a900125eb804c8c94ccc034c00c0084cdd2a4000660246e9c0092f5c0266600a00a00200660260066eb0c04400888c8ccc0040052000003222333300c3370e008004024466600800866e0000d200230140010012300a37540022930b180080091129998040010a4c26600a600260140046660060066016004002ae695cdaab9d5573caae7d5d02ba15745",
+      "hash": "cb81021628bfe0ce02fc6f36558bb42515faaba4cfe7969c091a85e1"
     },
     {
-      "title": "interest.interest",
+      "title": "request_debt.request",
       "datum": {
-        "title": "InterestDatum",
+        "title": "RequestDatum",
         "anyOf": [
           {
-            "title": "InterestDatum",
+            "title": "RequestDatum",
             "dataType": "constructor",
             "index": 0,
             "fields": [
+              {
+                "title": "borrower_tn",
+                "dataType": "bytes"
+              },
+              {
+                "title": "borrower_address",
+                "description": "A Cardano `Address` typically holding one or two credential references.\n\n Note that legacy bootstrap addresses (a.k.a. 'Byron addresses') are\n completely excluded from Plutus contexts. Thus, from an on-chain\n perspective only exists addresses of type 00, 01, ..., 07 as detailed\n in [CIP-0019 :: Shelley Addresses](https://github.com/cardano-foundation/CIPs/tree/master/CIP-0019/#shelley-addresses).",
+                "anyOf": [
+                  {
+                    "title": "Address",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "title": "payment_credential",
+                        "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
+                        "anyOf": [
+                          {
+                            "title": "VerificationKeyCredential",
+                            "dataType": "constructor",
+                            "index": 0,
+                            "fields": [
+                              {
+                                "dataType": "bytes"
+                              }
+                            ]
+                          },
+                          {
+                            "title": "ScriptCredential",
+                            "dataType": "constructor",
+                            "index": 1,
+                            "fields": [
+                              {
+                                "dataType": "bytes"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "title": "stake_credential",
+                        "anyOf": [
+                          {
+                            "title": "Some",
+                            "description": "An optional value.",
+                            "dataType": "constructor",
+                            "index": 0,
+                            "fields": [
+                              {
+                                "title": "Referenced",
+                                "description": "Represent a type of object that can be represented either inline (by hash)\n or via a reference (i.e. a pointer to an on-chain location).\n\n This is mainly use for capturing pointers to a stake credential\n registration certificate in the case of so-called pointer addresses.",
+                                "anyOf": [
+                                  {
+                                    "title": "Inline",
+                                    "dataType": "constructor",
+                                    "index": 0,
+                                    "fields": [
+                                      {
+                                        "title": "Credential",
+                                        "description": "A general structure for representing an on-chain `Credential`.\n\n Credentials are always one of two kinds: a direct public/private key\n pair, or a script (native or Plutus).",
+                                        "anyOf": [
+                                          {
+                                            "title": "VerificationKeyCredential",
+                                            "dataType": "constructor",
+                                            "index": 0,
+                                            "fields": [
+                                              {
+                                                "dataType": "bytes"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "title": "ScriptCredential",
+                                            "dataType": "constructor",
+                                            "index": 1,
+                                            "fields": [
+                                              {
+                                                "dataType": "bytes"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "title": "Pointer",
+                                    "dataType": "constructor",
+                                    "index": 1,
+                                    "fields": [
+                                      {
+                                        "title": "slot_number",
+                                        "dataType": "integer"
+                                      },
+                                      {
+                                        "title": "transaction_index",
+                                        "dataType": "integer"
+                                      },
+                                      {
+                                        "title": "certificate_index",
+                                        "dataType": "integer"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "title": "None",
+                            "description": "Nothing.",
+                            "dataType": "constructor",
+                            "index": 1,
+                            "fields": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "loan_asset",
+                "anyOf": [
+                  {
+                    "title": "CurrencySymbol",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "title": "policy_id",
+                        "dataType": "bytes"
+                      },
+                      {
+                        "title": "asset_name",
+                        "dataType": "bytes"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "loan_amount",
+                "dataType": "integer"
+              },
+              {
+                "title": "interest_asset",
+                "anyOf": [
+                  {
+                    "title": "CurrencySymbol",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "title": "policy_id",
+                        "dataType": "bytes"
+                      },
+                      {
+                        "title": "asset_name",
+                        "dataType": "bytes"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "interest_amount",
+                "dataType": "integer"
+              },
+              {
+                "title": "collateral_asset",
+                "anyOf": [
+                  {
+                    "title": "CurrencySymbol",
+                    "dataType": "constructor",
+                    "index": 0,
+                    "fields": [
+                      {
+                        "title": "policy_id",
+                        "dataType": "bytes"
+                      },
+                      {
+                        "title": "asset_name",
+                        "dataType": "bytes"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "collateral_amount",
+                "dataType": "integer"
+              },
+              {
+                "title": "loan_duration",
+                "dataType": "integer"
+              },
+              {
+                "title": "liquidate_policy",
+                "dataType": "bytes"
+              },
+              {
+                "title": "collateral_factor",
+                "dataType": "integer"
+              },
+              {
+                "title": "liquidation_commision",
+                "dataType": "integer"
+              },
+              {
+                "title": "request_expiration_time",
+                "dataType": "integer"
+              },
               {
                 "title": "lender_tn",
                 "dataType": "bytes"
-              }
-            ]
-          }
-        ]
-      },
-      "redeemer": {
-        "title": "Redeemer",
-        "anyOf": [
-          {
-            "title": "Redeemer",
-            "dataType": "constructor",
-            "index": 0,
-            "fields": [
+              },
               {
-                "title": "some_int",
+                "title": "lend_time",
                 "dataType": "integer"
               }
             ]
           }
         ]
       },
-      "compiledCode": "5901ca01000032323232323232323232222533300632323232323232323322323253330123370e0029000099251300c00214a060266ea8004cc01cc8ccc888ccc02400c008004004888ccc888ccc02800c008004008888cc070dd39980e1ba90063301c3752006660386ea00092f5c000200297ae000223375e6e9c004dd38011bab3300730083300730080094800120083301337529111c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228003301337526eb8cc01cc02002d200033013375066e052000480092f5c060020024444a666028006200226464646466600c002004666601001000600c00a6eb8c05400cdd6980a801180c002180b001980080091112999809001880089919191919980300080119998040040018030029bae301300337566026004602c00860280066002002444a66601e004266e9520024bd700991929998069801801099ba548000cc048dd380125eb804ccc01401400400cc04c00cdd618088011119199800800a4000006444666601866e1c0100080488ccc010010cdc0001a40046028002002460146ea8004526163001001222533300800214984cc014c004c028008ccc00c00cc02c0080055cd2b9b5573aaae7955cfaba05742ae89",
-      "hash": "2349b3d18162a5636f7290af661db06c0ad1d9a656ec64640ff07b2d"
-    },
-    {
-      "title": "aada_nft.aada_nft",
       "redeemer": {
         "title": "Redeemer",
         "anyOf": [
@@ -919,53 +950,22 @@
                 "title": "action",
                 "anyOf": [
                   {
-                    "title": "MintR",
+                    "title": "ProvideLoan",
                     "dataType": "constructor",
                     "index": 0,
                     "fields": [
                       {
-                        "title": "OutputReference",
-                        "description": "An `OutputReference` is a unique reference to an output on-chain. The `output_index`\n corresponds to the position in the output list of the transaction (identified by its id)\n that produced that output",
-                        "anyOf": [
-                          {
-                            "title": "OutputReference",
-                            "dataType": "constructor",
-                            "index": 0,
-                            "fields": [
-                              {
-                                "title": "transaction_id",
-                                "description": "A unique transaction identifier, as the hash of a transaction body. Note that the transaction id\n isn't a direct hash of the `Transaction` as visible on-chain. Rather, they correspond to hash\n digests of transaction body as they are serialized on the network.",
-                                "anyOf": [
-                                  {
-                                    "title": "TransactionId",
-                                    "dataType": "constructor",
-                                    "index": 0,
-                                    "fields": [
-                                      {
-                                        "title": "hash",
-                                        "dataType": "bytes"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              },
-                              {
-                                "title": "output_index",
-                                "dataType": "integer"
-                              }
-                            ]
-                          }
-                        ]
+                        "dataType": "bytes"
                       }
                     ]
                   },
                   {
-                    "title": "BurnR",
+                    "title": "CancelRequest",
                     "dataType": "constructor",
                     "index": 1,
                     "fields": [
                       {
-                        "dataType": "bytes"
+                        "dataType": "integer"
                       }
                     ]
                   }
@@ -975,8 +975,8 @@
           }
         ]
       },
-      "compiledCode": "59031e010000323232323232323232322253330053232323253330093370e002900009919191919191919191919299980a19b87001480004c8c8c8c8c8c8c8c8c94ccc0754ccc07400c400852808008a50337106eb4cc058c05c01d20024820010c8c8cc88c8c94ccc084cdc3800a4000264944c07000852818111baa00133003001253330203375e6603460366603460360029000240006603460360069000099b87375a6603460366603460360029000240046eb4cc068c06c00d200214a00106eb0cc05cc060cc05cc060065200048000c0040048894ccc0880084cdd2a400497ae0132325333020300300213374a90001981280125eb804ccc01401400400cc09800cc090008cc024dd59980a180a9980a180a80b2400090040009980f1ba900f3301e37520026603c6ea120024bd70191b920010013322337160020040026eb4cc044c0480092002375c6602060226602060220029000240006036002601e00426464646600c6eaccc044c048cc044c04804d200048020004cc06cdd48061980d9ba90013301b375066e052000480092f5c06eb8c06c004c03c008c054dd5000998061806807a4000446464a66602a66e1c00520001324a260200042940c058dd500099803991999111998048018010008009111999111998050018010008011111980f9ba73301f375200c6603e6ea400ccc07cdd400125eb800040052f5c0004466ebcdd38009ba700230010012222533301700310011323232323330060010023333008008003006005375c60300066eb4c060008c06c010c06400cc00400488894ccc05400c40044c8c8c8c8ccc018004008cccc02002000c018014dd7180b0019bab3016002301900430170033001001222533301200213374a900125eb804c8c94ccc040c00c0084cdd2a40006602a6e9c0092f5c0266600a00a002006602c0066eb0c050008dd7180800098020010a50300a375400266002600400690011119199800800a4000006444666601666e1c0100080448ccc010010cdc0001a40046026002002460126ea8004526163001001222533300800214984cc014c004c028008ccc00c00cc02c0080055cd2b9b5573aaae7955cfaba05742ae89",
-      "hash": "5ed3d7a9c6a0791d554fcd32e7bb403de370188bc0b12b180dad4ec9"
+      "compiledCode": "590e9b010000323232323232323232323222253330063232323232323232323232323232323232323253330193370e00290000991919191919299980f99b87001480084c8c8c8c8c8c8c8c8c8c8c8c8c8cccccc888888c8c8c8c8c94ccc0dd4ccc0dd4ccc0dc010400c52808010a50100114a066e1cc038cc88c8cc038dd6198191819998191819801a40009000119baf330333034330333034001480092000002332232323021001375c6084002606864a66607666e1d2000303e375400220022a6607a92012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633223232323232323253330433370e0029000099190009825800981e801099ba5480092f5c0608a6ea8004004cc88c94ccc10ccdc3800a4004266e9520024bd700991919ba548000cc12cc0100052f5c06096002607a006608a6ea80080048c94ccc108cdc3800a40042646466e9520003304a375200297ae0375c60940026078004266e9520024bd7018221baa00133016001233039303a00148000cc0540048cc0e0c0e4005200033014001233037303800148008cc0680088cdd79981b181b800a40000046eb0cc0ccc0d0cc0ccc0d0009200048000004008004028015200233332222323232323303e32533303e3370e002900009919191919191919191919191919191919191919191919191919191919192999830983200109982e99299982e99b87001480004c8c8c8c94ccc198c1a40084cc188c94ccc188cdc3800a400026464a6660d260d80042930a99833249364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60d400260b80082a6660c466e1c0052002132325333069306c002149854cc1992401364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60d400260b80082a660c89212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630643754006660c464a6660c466e1c0052000132325333069306c002149854cc199241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016306a001305c002153330623370e00290010a4c2a660c89212b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630643754002930a99831a481364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016306700130670023065001305701c153305f4912b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305f3754036660ba64a6660ba66e1c005200013232323253330663069002149854cc18d241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60ce00260ce0046eb8c194004c15c06854cc17d2412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305f3754032660ba64a6660ba66e1c005200013232323253330663069002149854cc18d241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60ce00260ce0046eb8c194004c15c05854cc17d2412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305f375402a660ba64a6660ba66e1c005200013232323253330663069002149854cc18d241364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375c60ce00260ce0046eb8c194004c15c04854cc17d2412b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e740016305f3754022930a9982f2481364c6973742f5475706c652f436f6e73747220636f6e7461696e73206d6f7265206974656d73207468616e2069742065787065637465640016375a60c400260c40046eb8c180004c180008dd6982f000982f0011bad305c001305c002375a60b400260b40046eb8c160004c160008dd6982b000982b0011bad3054001305400230520013052002375a60a000260a0004609c002609c0046eb4c130004c130008c128004c128008c120004c120008dd71823000981c0010a9982024812b436f6e73747220696e64657820646964206e6f74206d6174636820616e7920747970652076617269616e74001630403754002646464a666080a66608000420062940400452819b8930193031375666070607200a90012400c66ebc008020cdc49bad33036303700648038ccc888c8c8cc88c94ccc114cdc3800a40042004264640026eb4c134004c0fc00cc11cdd5001000a4000664464a66608866e1c005200213374a900125eb804c8c8c010004dd59826000981f00198231baa00200123322330200020010010033302b00300237566606c606e00690011bae330363037330363037006480312000375c6606c606e6606c606e00c9006240046086002606a64a66607866e1d2004303f375400220022a6607c92012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e001633034303500148010c104004c0ccc94ccc0e8cdc3a4000607a6ea8004400454cc0f124012a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e0016332233019375866068606a66068606a004900024008466ebccc0d4c0d800520000020040010090030080053322323253330383370e00290010991919b89001005375a608000260640042940c0e8dd50009981798181981798180012400090001981698171981698170042400090071bad3302d302e00748060cc074dd5998161816998161816803a400090041981c9ba900433039375200a660726ea120024bd7019ba548000cc0e0dd48021981c198159816002a40046607066056605800a90021981c1ba8375a66056605800a90031981c198159816002a4010660706ea0dd6998159816002a40146607066056605800a90061981c1ba8375a66056605800a90071981c1ba8375a66056605800a90081981c1ba9375c66056605800a90091981c1ba8375a66056605800a900a1981c1ba8375a66056605800a900b1981c1ba8375a66056605800a900c1981c1ba9375c66056605800a900d1981c1ba8323232001375a6076002605a64a66606866e1d20023037375400220022a6606c9212a4173736572746564206f6e20696e636f727265637420636f6e7374727563746f722076617269616e742e00163302c302d3302c302d0014800120003302b302c3302b302c00648001200e4bd7001381480924411c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e92280001000c3001001222533303200214bd70099192999817980180109981a8011998028028008018999802802800801981b001981a0011119299981619b87001480084cdd2a400497ae0132323374a90001981a1802000a5eb80c0d0004c09800cc0b8dd500118008009129998170008a400026466e012002330030030013031001300100122533302c0011480004c8cdc02400466006006002605e0026002002444a666056004266e9520024bd70099191919299981519b8f00500113374a9000198181ba80024bd7009998038038018029bae302c003375a6058004605e006605a0046002002444a666052004266e9520024bd700991929998131801801099ba548000cc0b00092f5c0266600a00a002006605a0066056004604e00260320042940c084dd50009980b180b80c24004600291011c9f0b484d5860b6746ff652747ca3271330c413d4c13fe2de680a6f970023374a90001981119ba548008cc088dd4800a5eb80cc088cdd2a400497ae04bd701bae302100130130021323332223300737566602c602e6602c602e006900024010660466ea4004cc08cdd49bae33016301700248068cc08cdd419b814800120024bd7000a80ba4411c0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228003013002301b37540026602060220269000111919299980d19b87001480004c8cc88c8cdc39807191806800999119199119299981219b870014800840084c8c8004dd59816000980f00198131baa0020014bd6f7b63019805801000801800a40046eb8c090004014010c050008528180e1baa0013300f300a00223375e6e9c004dd380111198018010009800800911299980d801099ba5480092f5c0264646464a66603466e3c0140044cdd2a4000660406e980092f5c0266600e00e00600a6eb8c07000cdd5980e001180f801980e801180080091299980c0008a5eb804c8c8c8c8cc074dd4800998030030019bae3019003375a603200460380046034002600200244a66602c0022900009919b8048008cc00c00c004c0640048ccc888ccc01c00c008004004888ccc888ccc02000c008004008888cc06cdd39980d9ba90063301b3752006660366ea00092f5c000200297ae030010012222533301500310011323232323330060010023333008008003006005375c602c0066eb4c058008c064010c05c00cc00400488894ccc04c00c40044c8c8c8c8ccc018004008cccc02002000c018014dd7180a0019bab3014002301700430150033001001222533301000213374a900125eb804c8c94ccc034c00c0084cdd2a4000660266e9c0092f5c0266600a00a00200660280066eb0c04800888c8ccc0040052000003222333300c3370e008004026466600800866e0000d200230150010012300b37540022930b180080091129998048010a4c26600a600260160046660060066018004002ae695cdab9c5573aaae7955cfaba05742ae89",
+      "hash": "74d8d3778f703a2f159ab09a1a50bb5b4681d557388677c4b199cf8c"
     }
   ]
 }
