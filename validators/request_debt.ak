@@ -86,11 +86,13 @@ fn validate_loan(
 
   let only_one_contract_input =
     list.length(utils.get_own_validator_inputs(ctx, output_ref)) == 1
-  let no_other_script_inputs =
-    list.length(utils.get_other_validator_inputs(ctx, output_ref)) == 0
+  // let no_other_script_inputs =
+  //   list.length(utils.get_other_validator_inputs(ctx, output_ref)) == 0
+  let only_one_validator_input =
+    list.length(utils.get_validators_inputs(ctx)) == 1
 
   // Perform final validation
-  minted_borrower_nft && request_not_expired && valid_collateral_output && only_one_contract_input && no_other_script_inputs
+  minted_borrower_nft && request_not_expired && valid_collateral_output && only_one_contract_input && only_one_contract_input && only_one_validator_input
 }
 
 fn validate_cancel(
@@ -110,10 +112,10 @@ validator request {
       ProvideLoan(borrower_tn) -> {
         // Contracts info - should be parameterized
         let borrower_policy: PolicyId =
-          #"0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228"
+          #"5a42c143d279a30b7a98b49f708a56bcf5da73a6ab623785c3d39185"
         let collateral_address: Address =
           utils.scripthash_address(
-            #"9f0b484d5860b6746ff652747ca3271330c413d4c13fe2de680a6f97",
+            #"46e883ae2b15e15eb77b4fb319b9a16f7c8d234fdac744331204af79",
           )
         when ctx.purpose is {
           Spend(output_ref) ->
