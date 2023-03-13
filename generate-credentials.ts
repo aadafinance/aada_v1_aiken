@@ -2,10 +2,15 @@ import { Lucid } from "https://deno.land/x/lucid@0.8.3/mod.ts";
  
 const lucid = await Lucid.new(undefined, "Preview");
  
-const privateKey = lucid.utils.generatePrivateKey();
-await Deno.writeTextFile("key.sk", privateKey);
+const LenderKey = lucid.utils.generatePrivateKey();
+await Deno.writeTextFile("lender.sk", LenderKey);
  
-const address = await lucid.selectWalletFromPrivateKey(privateKey).wallet.address();
-await Deno.writeTextFile("key.addr", address);
+const lenderAddress = await lucid.selectWalletFromPrivateKey(LenderKey).wallet.address();
+await Deno.writeTextFile("lender.addr", lenderAddress);
 
 
+const borrowerKey = lucid.utils.generatePrivateKey();
+await Deno.writeTextFile("borrower.sk", borrowerKey);
+ 
+const borrowerAddress = await lucid.selectWalletFromPrivateKey(borrowerKey).wallet.address();
+await Deno.writeTextFile("borrower.addr", borrowerAddress);

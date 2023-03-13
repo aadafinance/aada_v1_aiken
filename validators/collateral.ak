@@ -55,22 +55,23 @@ fn validate_expiration(range: ValidityRange, lower_bound: POSIXTime) -> Bool {
 
 // Find interest amount borrower has to pay to lender
 fn get_expected_interest(ctx: ScriptContext, datum: RequestDatum) -> Value {
-  let current_repay_time = utils.get_lower_bound(ctx.transaction.validity_range)
+  let current_repay_time = utils.get_upper_bound(ctx.transaction.validity_range)
   let loan_held_interval = current_repay_time - datum.lend_time
   let minimum_interest = datum.interest_amount * 200000 / 1000000
   // Minimum interest must be paid (currently 20% of total interest amount)
   if loan_held_interval <= datum.loan_duration {
     let actual_interest_amount =
-      loan_held_interval / datum.loan_duration * datum.interest_amount
+      loan_held_interval * datum.interest_amount / datum.loan_duration
     if actual_interest_amount < minimum_interest {
+      // Loan recently started. Must pay 20% minimum interest
       from_asset(
-        datum.interest_asset.asset_name,
+        datum.interest_asset.policy_id,
         datum.interest_asset.asset_name,
         minimum_interest,
       )
     } else {
       from_asset(
-        datum.interest_asset.asset_name,
+        datum.interest_asset.policy_id,
         datum.interest_asset.asset_name,
         actual_interest_amount,
       )
@@ -78,7 +79,7 @@ fn get_expected_interest(ctx: ScriptContext, datum: RequestDatum) -> Value {
   } else {
     // Loan overdue. You must give all interest to lender
     from_asset(
-      datum.interest_asset.asset_name,
+      datum.interest_asset.policy_id,
       datum.interest_asset.asset_name,
       datum.interest_amount,
     )
@@ -103,7 +104,7 @@ fn validate_repay(
   let interest_value = get_expected_interest(ctx, request_datum)
   let loan_value =
     from_asset(
-      request_datum.loan_asset.asset_name,
+      request_datum.loan_asset.policy_id,
       request_datum.loan_asset.asset_name,
       request_datum.loan_amount,
     )
@@ -136,7 +137,7 @@ fn validate_liquidate(
     )
   // Loan is due. Lender can liquidate
   let deadline_passed =
-    request_datum.loan_duration + request_datum.lend_time > utils.get_lower_bound(
+    request_datum.loan_duration + request_datum.lend_time < utils.get_lower_bound(
       ctx.transaction.validity_range,
     )
 

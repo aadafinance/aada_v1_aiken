@@ -96,10 +96,11 @@ async function mint_tokens(validator): Promise<TxHash>{
   
   console.log("Policy is", policyId);
 
-  const tx_hash = "6a019f9ae3e0a30a15f3fbeede3c858c6b4290a6ee915472bf0c84f8a257d6e6";
-  const tx_id = 0;
+  const tx_hash = "75aa98d51f7c95bcdeb153bbf41b566aba114d3a601adf9f5350b51a35869aac";
+  const tx_id = 1;
 
   const tx_hash_in_bytes = fromHex(decimalToHex(tx_id)+tx_hash);
+  console.log(tx_hash_in_bytes);
 
   const redeemer = Data.to(
     new Constr(0, 
@@ -124,16 +125,13 @@ async function mint_tokens(validator): Promise<TxHash>{
 
   console.log("Will mint TN", toHex(sha256(tx_hash_in_bytes)));
 
-  // const tx = await lucid
-  // .newTx()
-  // .mintAssets({
-  //   [toUnit(policyId, "ad8c879ac6cb2e8d9bacc4f734a5dbe8fc6c0b2ccb8433895aa5130bed30b998")]: -1n,
-  // }, redeemer)
-  // .attachMintingPolicy(validator)
-  // .complete();
 
   const tx = await lucid
     .newTx()
+    .mintAssets({
+      [toUnit(policyId, toHex(sha256(tx_hash_in_bytes)))]: 1n,
+    }, redeemer)
+    .attachMintingPolicy(validator)
     .mintAssets({
       [toUnit(policyId, toHex(sha256(tx_hash_in_bytes)))]: 1n,
     }, redeemer)
