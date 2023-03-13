@@ -104,7 +104,7 @@ fn validate_repay(
   let interest_value = get_expected_interest(ctx, request_datum)
   let loan_value =
     from_asset(
-      request_datum.loan_asset.asset_name,
+      request_datum.loan_asset.policy_id,
       request_datum.loan_asset.asset_name,
       request_datum.loan_amount,
     )
