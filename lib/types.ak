@@ -5,7 +5,7 @@ use aiken/transaction/value.{AssetName, PolicyId}
 pub type POSIXTime =
   Int
 
-pub type CurrencySymbol {
+pub type AssetClass {
   policy_id: PolicyId,
   asset_name: AssetName,
 }
@@ -13,11 +13,11 @@ pub type CurrencySymbol {
 pub type RequestDatum {
   borrower_tn: AssetName,
   borrower_address: Address,
-  loan_asset: CurrencySymbol,
+  loan_asset: AssetClass,
   loan_amount: Int,
-  interest_asset: CurrencySymbol,
+  interest_asset: AssetClass,
   interest_amount: Int,
-  collateral_asset: CurrencySymbol,
+  collateral_asset: AssetClass,
   collateral_amount: Int,
   loan_duration: Int,
   liquidate_policy: PolicyId,

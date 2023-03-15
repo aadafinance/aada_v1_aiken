@@ -50,6 +50,7 @@ fn validate_loan(
   borrower_policy: PolicyId,
   collateral_address: Address,
   output_ref: OutputReference,
+  stake_hash,
 ) -> Bool {
   let expected_datum =
     RequestDatum {
@@ -85,10 +86,12 @@ fn validate_loan(
     validate_collateral_output(ctx, expected_datum, datum, collateral_address)
 
   let only_one_contract_input =
-    list.length(utils.get_own_validator_inputs(ctx, output_ref)) == 1
+    list.length(utils.get_own_validator_inputs(ctx, output_ref, stake_hash)) == 1
+  let only_one_validator_input =
+    list.length(utils.get_validators_inputs(ctx)) == 1
 
   // Perform final validation
-  minted_borrower_nft && request_not_expired && valid_collateral_output && only_one_contract_input
+  minted_borrower_nft && request_not_expired && valid_collateral_output && only_one_contract_input && only_one_contract_input && only_one_validator_input
 }
 
 fn validate_cancel(
@@ -102,17 +105,17 @@ fn validate_cancel(
   )
 }
 
-validator request {
+validator request(
+  borrower_policy: PolicyId,
+  lender_policy: PolicyId,
+  collateral_script_hash: ByteArray,
+  contract_stake_hash,
+) {
   fn(datum: RequestDatum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
     when redeemer.action is {
       ProvideLoan(borrower_tn) -> {
-        // Contracts info - should be parameterized
-        let borrower_policy: PolicyId =
-          #"0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228"
         let collateral_address: Address =
-          utils.scripthash_address(
-            #"9f0b484d5860b6746ff652747ca3271330c413d4c13fe2de680a6f97",
-          )
+          utils.scripthash_address(collateral_script_hash, contract_stake_hash)
         when ctx.purpose is {
           Spend(output_ref) ->
             validate_loan(
@@ -122,16 +125,12 @@ validator request {
               borrower_policy,
               collateral_address,
               output_ref,
+              contract_stake_hash,
             )
           _ -> False
         }
       }
-      CancelRequest(_) -> {
-        // Contract info - should be parameterized
-        let lender_policy: PolicyId =
-          #"0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228"
-        validate_cancel(ctx, datum, lender_policy)
-      }
+      CancelRequest(_) -> validate_cancel(ctx, datum, lender_policy)
     }
   }
 }
