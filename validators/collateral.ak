@@ -1,11 +1,10 @@
-use aiken/interval.{Finite}
 use aiken/list
-use aiken/transaction.{InlineDatum, ScriptContext, ValidityRange}
+use aiken/transaction.{InlineDatum, ScriptContext}
 use aiken/transaction/credential.{Address}
 use aiken/transaction/value.{
   AssetName, PolicyId, Value, add, flatten, from_asset, quantity_of,
 }
-use types.{InterestDatum, POSIXTime, RequestDatum}
+use types.{InterestDatum, RequestDatum}
 use utils
 
 type CollateralRedeemer {
@@ -44,13 +43,6 @@ fn validate_interest_output(
   // Interest is as expected
   let datums_matches = interest_datum_typed == expected_datum
   datums_matches && paid_loan_and_interest
-}
-
-fn validate_expiration(range: ValidityRange, lower_bound: POSIXTime) -> Bool {
-  when range.lower_bound.bound_type is {
-    Finite(now) -> now <= lower_bound
-    _ -> False
-  }
 }
 
 // Find interest amount borrower has to pay to lender
@@ -95,7 +87,7 @@ fn validate_repay(
   // Expect that correct lender tokenName is passed to interest datum
   let expected_datum = InterestDatum { lender_tn: request_datum.lender_tn }
 
-  let burned_lender_nft =
+  let burned_borrower_nft =
     utils.validate_token_mint(
       ctx.transaction.mint,
       (borrower_policy, request_datum.borrower_tn, -1),
@@ -119,7 +111,7 @@ fn validate_repay(
       interest_address,
     )
 
-  burned_lender_nft && valid_interest_output
+  burned_borrower_nft && valid_interest_output
 }
 
 // Borrower have not paid in time OR loan is undercollaterized

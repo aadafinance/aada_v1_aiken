@@ -5,7 +5,7 @@ use aiken/transaction.{
 use aiken/transaction/credential.{Address}
 use aiken/transaction/value.{AssetName, PolicyId, flatten, quantity_of}
 // Custom utils and types
-use types.{CurrencySymbol, RequestDatum}
+use types.{AssetClass, RequestDatum}
 use utils
 
 type RequestRedeemer {
@@ -20,13 +20,13 @@ type Redeemer {
 
 // Loan is sent to borrower
 fn paid_borrower(
-  tx_output: List<Output>,
+  tx_outputs: List<Output>,
   borrower_address: Address,
-  loan_asset: CurrencySymbol,
+  loan_asset: AssetClass,
   loan_amount: Int,
 ) -> Bool {
   expect Some(output_to_borrower) =
-    list.find(tx_output, fn(output) { output.address == borrower_address })
+    list.find(tx_outputs, fn(output) { output.address == borrower_address })
   // Should trace some error since hard to find issue
   quantity_of(
     output_to_borrower.value,

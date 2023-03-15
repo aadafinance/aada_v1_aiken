@@ -6,7 +6,7 @@ use aiken/transaction.{
   Datum, Input, NoDatum, Output, OutputReference, ScriptContext, ValidityRange,
 }
 use aiken/transaction/credential.{
-  Address, ScriptCredential, VerificationKeyCredential,
+  Address, Credential, ScriptCredential, VerificationKeyCredential,
 }
 use aiken/transaction/value.{PolicyId, Value, flatten, tokens}
 use types.{POSIXTime, ValidatorHash}
@@ -52,17 +52,6 @@ pub fn keyhash_address(keyhash: ByteArray) {
     payment_credential: VerificationKeyCredential(keyhash),
     stake_credential: None,
   }
-}
-
-pub fn get_output(ctx: ScriptContext, address: Address) -> Option<Output> {
-  list.find(ctx.transaction.outputs, fn(output) { output.address == address })
-}
-
-pub fn get_input(ctx: ScriptContext, address: Address) -> Option<Input> {
-  list.find(
-    ctx.transaction.inputs,
-    fn(input) { input.output.address == address },
-  )
 }
 
 pub fn get_address_output(
@@ -132,6 +121,20 @@ pub fn get_other_validator_inputs(
       has_datum(input.output.datum) && input.output.address != script_own_address
     },
   )
+}
+
+pub fn get_validators_inputs(ctx: ScriptContext) -> List<Input> {
+  list.filter(
+    ctx.transaction.inputs,
+    fn(input) { is_script_credential(input.output.address.payment_credential) },
+  )
+}
+
+pub fn is_script_credential(credential: Credential) -> Bool {
+  when credential is {
+    ScriptCredential(_validator_hash) -> True
+    _ -> False
+  }
 }
 
 pub fn has_datum(datum: Datum) -> Bool {

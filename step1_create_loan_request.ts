@@ -1,15 +1,7 @@
 import {
   Blockfrost,
-  // Constr,
   Data as Datas,
   Lucid,
-  // fromText,
-  // SpendingValidator,
-  // TxHash,
-  // toUnit,
-  utf8ToHex,
-  // PolicyId,
-  // TxHash,
   fromHex,
   sha256,
   toHex
@@ -17,28 +9,12 @@ import {
 import * as cbor from "https://deno.land/x/cbor@v1.4.1/index.js";
 
 import {
-  Address,
-  applyParamsToScript,
-  Assets,
   Data,
-  Datum,
-  fromText,
-  fromUnit,
-  Lovelace,
-  // Lucid,
-  // Blockfrost, 
-  MintingPolicy,
-  OutRef,
-  paymentCredentialOf,
   PolicyId,
-  ScriptHash,
   SpendingValidator,
   toUnit,
-  Tx,
   TxHash,
   Constr,
-  Unit,
-  UTxO,
 } from "./deps.ts";
 
 
@@ -50,12 +26,12 @@ const lucid = await Lucid.new(
   "Preprod",
 );
 
-let paymentKeyHash = "72c0a5fdf0fcdd32555c357539a872d490646ecfa7189c8070a24e48"; //pkh of addr_test1vpevpf0a7r7d6vj4ts6h2wdgwt2fqerwe7n338yqwz3yujq90eqq4
+let paymentKeyHash = "1c5c2127e2e0a8ab547f7b1371a16b1d9e799325757d7bd0fde6935d"; //pkh of borrower
 
-lucid.selectWalletFromPrivateKey(await Deno.readTextFile("./key.sk"));
+lucid.selectWalletFromPrivateKey(await Deno.readTextFile("./borrower.sk"));
 
 console.log("Wallet address is", lucid.wallet.address())
-// console.log(await lucid.wallet.getUtxos());
+console.log(await lucid.wallet.getUtxos());
 
 const validator = await readValidator("request.request");
 
@@ -74,8 +50,9 @@ console.log(`Locked. Tx ID: ${txLock}
 async function lock_tokens(lovelace, into): Promise<TxHash>{
 
 const tx_hash = Deno.args[0]
+const tx_index = Deno.args[1]
   
-const tx_hash_in_bytes = fromHex(tx_hash);
+const tx_hash_in_bytes = fromHex("0"+tx_index+tx_hash);
 
 const mint_redeemer = Data.to(
   new Constr(0, 
@@ -83,7 +60,7 @@ const mint_redeemer = Data.to(
       new Constr(0, [
         new Constr(0, [
         new Constr(0, [tx_hash]), 
-        2n
+        BigInt(tx_index)
       ]),
     ]),
     ]
