@@ -3,10 +3,10 @@ use aiken/interval.{Finite}
 use aiken/list
 use aiken/option
 use aiken/transaction.{
-  Datum, Input, NoDatum, Output, OutputReference, ScriptContext, ValidityRange,
+  Input, Output, OutputReference, ScriptContext, ValidityRange,
 }
 use aiken/transaction/credential.{
-  Address, Credential, ScriptCredential, VerificationKeyCredential,
+  Address, Credential, Inline, ScriptCredential, VerificationKeyCredential,
 }
 use aiken/transaction/value.{PolicyId, Value, flatten, tokens}
 use types.{POSIXTime, ValidatorHash}
@@ -34,23 +34,17 @@ pub fn own_validator_script_address_hash(
 pub fn get_own_validator_address(
   ctx: ScriptContext,
   output_reference: OutputReference,
+  stake_hash,
 ) -> Address {
   expect Some(validator_hash) =
     own_validator_script_address_hash(ctx.transaction.inputs, output_reference)
-  scripthash_address(validator_hash)
+  scripthash_address(validator_hash, stake_hash)
 }
 
-pub fn scripthash_address(scripthash: ByteArray) {
+pub fn scripthash_address(scripthash: ByteArray, stake_hash: ByteArray) {
   Address {
     payment_credential: ScriptCredential(scripthash),
-    stake_credential: None,
-  }
-}
-
-pub fn keyhash_address(keyhash: ByteArray) {
-  Address {
-    payment_credential: VerificationKeyCredential(keyhash),
-    stake_credential: None,
+    stake_credential: Some(Inline(VerificationKeyCredential(stake_hash))),
   }
 }
 
@@ -98,28 +92,15 @@ pub fn get_upper_bound(range: ValidityRange) -> Int {
 pub fn get_own_validator_inputs(
   ctx: ScriptContext,
   output_reference,
+  stake_hash,
 ) -> List<Input> {
-  let script_own_address = get_own_validator_address(ctx, output_reference)
+  let script_own_address =
+    get_own_validator_address(ctx, output_reference, stake_hash)
 
   // Get all inputs from the transaction
   list.filter(
     ctx.transaction.inputs,
     fn(input) { input.output.address == script_own_address },
-  )
-}
-
-pub fn get_other_validator_inputs(
-  ctx: ScriptContext,
-  output_reference: OutputReference,
-) -> List<Input> {
-  let script_own_address = get_own_validator_address(ctx, output_reference)
-
-  // Check if there is at least one another SC with datum and address is not it's own
-  list.filter(
-    ctx.transaction.inputs,
-    fn(input) {
-      has_datum(input.output.datum) && input.output.address != script_own_address
-    },
   )
 }
 
@@ -134,13 +115,6 @@ pub fn is_script_credential(credential: Credential) -> Bool {
   when credential is {
     ScriptCredential(_validator_hash) -> True
     _ -> False
-  }
-}
-
-pub fn has_datum(datum: Datum) -> Bool {
-  when datum is {
-    NoDatum -> False
-    _ -> True
   }
 }
 

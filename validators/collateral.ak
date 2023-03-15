@@ -143,25 +143,21 @@ fn validate_liquidate(
   burned_lender_nft && ( deadline_passed || oracle_token_minted )
 }
 
-validator collateral {
+validator collateral(
+  borrower_policy: PolicyId,
+  lender_policy: PolicyId,
+  interest_script_hash: ByteArray,
+  contract_stake_hash,
+) {
   fn(datum: RequestDatum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
     when redeemer.action is {
       RepayLoan(_) -> {
-        // Contracts info - should be parameterized
-        let borrower_policy: PolicyId =
-          #"0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228"
         let interest_address: Address =
-          utils.scripthash_address(
-            #"add97b4a3ce5497d15b8b99f583782f6ff9f47c4d17eb286d44f03c5",
-          )
+          utils.scripthash_address(interest_script_hash, contract_stake_hash)
         validate_repay(ctx, datum, interest_address, borrower_policy)
       }
-      Liquidate(oracle_tn) -> {
-        // Contract info - should be parameterized
-        let lender_policy: PolicyId =
-          #"0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228"
+      Liquidate(oracle_tn) ->
         validate_liquidate(ctx, datum, lender_policy, oracle_tn)
-      }
     }
   }
 }

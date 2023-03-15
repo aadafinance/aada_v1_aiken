@@ -70,6 +70,7 @@ fn validate_loan(
   lender_policy: PolicyId,
   collateral_address: Address,
   output_ref: OutputReference,
+  stake_hash,
 ) -> Bool {
   let expected_datum =
     RequestDatum {
@@ -113,7 +114,7 @@ fn validate_loan(
     validate_collateral_output(ctx, expected_datum, datum, collateral_address)
 
   let only_one_contract_input =
-    list.length(utils.get_own_validator_inputs(ctx, output_ref)) == 1
+    list.length(utils.get_own_validator_inputs(ctx, output_ref, stake_hash)) == 1
   // let no_other_script_inputs =
   //   list.length(utils.get_other_validator_inputs(ctx, output_ref)) == 0
   let only_one_validator_input =
@@ -134,17 +135,18 @@ fn validate_cancel(
   )
 }
 
-validator request {
+validator request(
+  borrower_policy: PolicyId,
+  lender_policy: PolicyId,
+  collateral_script_hash: ByteArray,
+  contract_stake_hash,
+) {
   fn(datum: RequestDatum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
     when redeemer.action is {
       ProvideLoan(lender_tn) -> {
         // Contracts info - should be parameterized
-        let lender_policy: PolicyId =
-          #"5a42c143d279a30b7a98b49f708a56bcf5da73a6ab623785c3d39185"
         let collateral_address: Address =
-          utils.scripthash_address(
-            #"46e883ae2b15e15eb77b4fb319b9a16f7c8d234fdac744331204af79",
-          )
+          utils.scripthash_address(collateral_script_hash, contract_stake_hash)
         when ctx.purpose is {
           Spend(output_ref) ->
             validate_loan(
@@ -154,16 +156,12 @@ validator request {
               lender_policy,
               collateral_address,
               output_ref,
+              contract_stake_hash,
             )
           _ -> False
         }
       }
-      CancelRequest(_) -> {
-        // Contract info - should be parameterized
-        let borrower_policy: PolicyId =
-          #"0fe20365f66016154df350e2f13ae2412d2cd08554b48b18668e9228"
-        validate_cancel(ctx, datum, borrower_policy)
-      }
+      CancelRequest(_) -> validate_cancel(ctx, datum, borrower_policy)
     }
   }
 }

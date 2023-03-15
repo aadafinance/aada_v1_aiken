@@ -26,6 +26,10 @@ const lucid = await Lucid.new(
   "Preprod",
 );
 
+const test_datum = Data.to("ff");
+
+console.log(test_datum);
+
 let paymentKeyHash = "1c5c2127e2e0a8ab547f7b1371a16b1d9e799325757d7bd0fde6935d"; //pkh of borrower
 
 lucid.selectWalletFromPrivateKey(await Deno.readTextFile("./borrower.sk"));
@@ -33,9 +37,11 @@ lucid.selectWalletFromPrivateKey(await Deno.readTextFile("./borrower.sk"));
 console.log("Wallet address is", lucid.wallet.address())
 console.log(await lucid.wallet.getUtxos());
 
+const stakeHash = lucid.utils.keyHashToCredential("69962602a7025d4163233855c5a379313b27239b8623ad53540815cb");
+
 const validator = await readValidator("request.request");
 
-console.log("Validator address is", lucid.utils.validatorToAddress(validator));
+console.log("Validator address is", lucid.utils.validatorToAddress(validator, stakeHash));
 
 const txLock = await lock_tokens(2000000, validator);
 
@@ -109,7 +115,7 @@ const datum = Data.to(
 
   console.log(await (lucid.wallet.getUtxos()))
 
-  const contractAddress = lucid.utils.validatorToAddress(into);
+  const contractAddress = lucid.utils.validatorToAddress(validator, stakeHash);
   
   const tx = await lucid
     .newTx()

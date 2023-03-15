@@ -28,7 +28,9 @@ fn utxo_consumed(consumed_utxo: OutputReference, inputs: List<Input>) {
   }
 }
 
-validator aada_nft {
+// 1 - Borrower
+// 0 - Lender
+validator aada_nft(_is_borrower: Int) {
   fn(redeemer: Redeemer, ctx: ScriptContext) {
     when ctx.purpose is {
       Mint(own_policy) ->
