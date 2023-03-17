@@ -122,7 +122,7 @@ pub fn validate_expiration(
   range: ValidityRange,
   expiration_time: POSIXTime,
 ) -> Bool {
-  when range.lower_bound.bound_type is {
+  when range.upper_bound.bound_type is {
     Finite(now) -> now <= expiration_time
     _ -> False
   }
