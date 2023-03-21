@@ -115,8 +115,7 @@ fn validate_loan(
 
   let only_one_contract_input =
     list.length(utils.get_own_validator_inputs(ctx, output_ref, stake_hash)) == 1
-  // let no_other_script_inputs =
-  //   list.length(utils.get_other_validator_inputs(ctx, output_ref)) == 0
+
   let only_one_validator_input =
     list.length(utils.get_validators_inputs(ctx)) == 1
 
