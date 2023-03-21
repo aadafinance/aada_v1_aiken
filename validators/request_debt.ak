@@ -91,7 +91,7 @@ fn validate_loan(
     list.length(utils.get_validators_inputs(ctx)) == 1
 
   // Perform final validation
-  minted_borrower_nft && request_not_expired && valid_collateral_output && only_one_contract_input && only_one_contract_input && only_one_validator_input
+  minted_borrower_nft && request_not_expired && valid_collateral_output && only_one_contract_input && only_one_validator_input
 }
 
 fn validate_cancel(
